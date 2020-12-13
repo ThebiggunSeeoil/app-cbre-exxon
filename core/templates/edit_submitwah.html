@@ -1,0 +1,264 @@
+{% extends 'layouts/basecontractor.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block content %}
+    <!-- Header -->
+    
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+        <div class="container-fluid">
+          <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+              <div class="col-xl-3 col-lg-6">
+                <div class="card card-stats mb-4 mb-xl-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">WAH Submited</h5>
+                        <span class="h2 font-weight-bold mb-0">{{wahsubited}}</span>
+                      </div>
+                      <div class="col-auto">
+                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                          <i class="fas fa-chart-bar"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                      <span class="text-success mr-2"><i class="fa fa-arrow-up"></i></span>
+                      <span class="text-nowrap"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <div class="card card-stats mb-4 mb-xl-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Pending Work</h5>
+                        <span class="h2 font-weight-bold mb-0">{{pendingcount}}</span>
+                      </div>
+                      <div class="col-auto">
+                        <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                          <i class="fas fa-chart-pie"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                      <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i></span>
+                      <span class="text-nowrap"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <div class="card card-stats mb-4 mb-xl-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">WAH Work at site</h5>
+                        <span class="h2 font-weight-bold mb-0">{{wah_onsite}}</span>
+                      </div>
+                      <div class="col-auto">
+                        <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                          <i class="fas fa-users"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                      <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i></span>
+                      <span class="text-nowrap"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <div class="card card-stats mb-4 mb-xl-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">WAH Completed Work</h5>
+                        <span class="h2 font-weight-bold mb-0">{{wah_completed}}</span>
+                      </div>
+                      <div class="col-auto">
+                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                          <i class="fas fa-percent"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                      <span class="text-success mr-2"><i class="fas fa-arrow-up"></i></span>
+                      <span class="text-nowrap"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <br>
+    <!-- ------- past for WAH Sumbit ---------- -->
+    <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Submit daily work report 1 day </h1>
+            <br>
+            <form class="form-sample" action="{% url 'updatewah' id %}" method="post"  >
+                {% csrf_token %} 
+                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">PLANNED DATE</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="date" placeholder="dd/mm/yyyy ระบุวันที่จะเข้าดำเนินการ"  value="{{planned_date}}"  name='planned_date' required/>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                        <label class="col-sm-3 col-form-label"> SITE NAME</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" value="{{caller}}" name="caller"/>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> JOB DESCRIPTION</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" value="{{job_description}}" name="job_description" />
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> WORK ORDER</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" value="{{workorder}}" name="workorder"/>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> CONTRACTOR</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control"  value="{{company}}" name="company"/>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> FLS NAME</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="ใส่ชื่อหัวหน้างาน หรือ Supervisor หรือ First Line Supervisor ของงาน " value="{{fls_mame}}" name="fls_mame" required/>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> Mobile phone # of FLS</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="หมายเลขโทรศัพท์ของหัวหน้างาน" value ="{{fls_phone}}" name="fls_phone" required/>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> MANAGEMENT VISIT NAME</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="ผู้บริหารหรือผู้จัดการที่จะไปตรวจที่ไซต์ชื่ออะไร" value="{{management}}" name="management" required/>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> REMARKS</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control"  placeholder="รายละเอียดอื่นๆ ระบุที่นี่"  value="{{remark}}"  name="remark"/>
+                            </div>
+                        </div>
+                        </div>
+                    
+                    </div>
+                    
+                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">TYPE OF JOB</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="type_job">
+                            <option valve="None" >{{type_job}}</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">JLA/RA REVIEWED </label>
+                            <div class="col-sm-9">
+                            <select class="form-control"  name="jla_ra">
+                                <option valve="None" >{{jla_ra}}</option>
+                                
+                            </select>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">ANY SSW WORKER INVOLVED? </label>
+                                <div class="col-sm-9">
+                                <select class="form-control" name="any_ssw">
+                                    <option valve="None" >{{any_ssw}}</option>
+                                   
+                                </select>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">PHYSICAL OR VIRTUAL OBSERVATION? </label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="physical">
+                            <option valve="None" >{{physical}} </option>
+                            
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">CBRE FMเจ้าของงาน</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="fm">
+                            <option valve="None" >{{fm}}</option>
+                            
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-success mr-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+          
+    
+       
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

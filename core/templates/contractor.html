@@ -1,0 +1,293 @@
+{% extends 'layouts/basecontractor.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">WAH Submited</h5>
+                      <span class="h2 font-weight-bold mb-0">{{wahsubited}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                        <i class="fas fa-chart-bar"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Pending Work</h5>
+                      <span class="h2 font-weight-bold mb-0">{{pendingcount}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                        <i class="fas fa-chart-pie"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">WAH Work at site</h5>
+                      <span class="h2 font-weight-bold mb-0">{{wah_onsite}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                        <i class="fas fa-users"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">WAH Completed Work</h5>
+                      <span class="h2 font-weight-bold mb-0">{{wah_completed}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                        <i class="fas fa-percent"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid mt--7">
+
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0">Work At High (WAH) Pending</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-responsive-sm">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">SiteName</th>
+                    <th scope="col">Opended</th>
+                    {% comment %} <th scope="col">StaTus</th>
+                    <th scope="col">WorkType</th> {% endcomment %}
+                    <th scope="col">WorkOrder</th>
+                    <th scope="col">JobDescription</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                {% for work in pendings %}
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <a href="#" class="avatar rounded-circle mr-1">
+                          <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
+                        </a>
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{work.caller}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{work.opended}}
+                    </td>
+                    {% comment %} <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{work.status}}
+                      </span>
+                    </td> 
+                    <td>
+                      {{work.work_type}}
+                    </td> {% endcomment %}
+                    <td> 
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">{{work.workorder}}</span>
+                        
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">{{work.problum}}</span>
+                        
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="{% url 'add_wah' work.workorder %}">Add to WAH</a>
+                          <a class="dropdown-item" href="#">Another action</a>
+                          <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                </tbody>
+
+               {% endfor %}
+              </table>
+            </div>
+            
+
+            <nav aria-label="pagination">
+                  {% if pendings.paginator.num_pages > 1 %}
+                  <ul class="pagination justify-content-end mb-5">
+                        {% for page_number in pendings.paginator.page_range %}
+                          <li class="page-item
+                          {% comment %} กำหนดให้แสดงสีเข้มตรงเลขหน้าที่กำลังใช้งานอยู่ {% endcomment %}
+                          {% if pendings.number == page_number %}
+                                active
+                          {% endif %}
+                          "><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                        {% endfor %}
+                  </ul>
+                  {% endif %}
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- Dark table -->
+      <div class="row mt-5">
+        <div class="col">
+          <div class="card bg-default shadow">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="text-white mb-0">Work At High (WAH) Submited</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-dark table-flush">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Site Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Planned Date</th>
+                    <th scope="col">FM CBRE</th>
+                    <th scope="col">Job Description</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+
+
+
+                {% for wah in wahsubmits %}
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{wah.caller}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                     {{wah.wah_status}}
+                    </td>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{wah.planned_date}}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{wah.fm}}
+                      </span>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">{{wah.job_description}}%</span>
+                        <div>
+                          
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="{% url 'editwah' wah.id %}">Edit (เปลี่ยนแปลงเวลาเข้างาน)</a>
+                          
+                        </div>
+                      </div>
+                    </td>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+            <nav aria-label="pagination">
+                  {% if wah.paginator.num_pages > 1 %}
+                  <ul class="pagination justify-content-end mb-5">
+                        {% for page_number in wah.paginator.page_range %}
+                          <li class="page-item
+                          {% comment %} กำหนดให้แสดงสีเข้มตรงเลขหน้าที่กำลังใช้งานอยู่ {% endcomment %}
+                          {% if wah.number == page_number %}
+                                active
+                          {% endif %}
+                          "><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                        {% endfor %}
+                  </ul>
+                  {% endif %}
+            </nav>
+          </div>
+        </div>
+      </div>
+
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

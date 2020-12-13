@@ -1,0 +1,357 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} ภาพรวมรายงาน {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Total M&R Pending Work</h5>
+                      <span class="h2 font-weight-bold mb-0">{{countpendingworks}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                        <i class="fas fa-chart-bar"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> </span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">WAH WORK Pending</h5>
+                      <span class="h2 font-weight-bold mb-0">{{count_wah_submitedcount}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                        <i class="fas fa-chart-pie"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">WAH WORK ON SITE</h5>
+                      <span class="h2 font-weight-bold mb-0">{{count_wah_onsite_count}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                        <i class="fas fa-users"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Total WAH Completed</h5>
+                      <span class="h2 font-weight-bold mb-0">{{count_wah_completed_count}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                        <i class="fas fa-percent"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i></span>
+                    <span class="text-nowrap"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="container-fluid mt--7">
+
+      {% comment %} <div class="row">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card bg-gradient-default shadow">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  
+                  <h2 class="text-white mb-0">Total Work order</h2>
+                </div>
+                <div class="col">
+                  <ul class="nav nav-pills justify-content-end">
+                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="" data-suffix="">
+                      <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                        <span class="d-none d-md-block">Month</span>
+                        <span class="d-md-none"></span>
+                      </a>
+                    </li>
+                    <li class="nav-item" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix="" data-suffix="">
+                      <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
+                        <span class="d-none d-md-block">Week</span>
+                        <span class="d-md-none"></span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Chart -->
+              <div class="chart">
+                <!-- Chart wrapper -->
+                <canvas id="chart-sales" class="chart-canvas"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h6 class="text-uppercase text-muted ls-1 mb-1">Work WAH</h6>
+                  <h2 class="mb-0">Total WAH</h2>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Chart -->
+              <div class="chart">
+                <canvas id="chart-orders" class="chart-canvas"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> {% endcomment %}
+
+      <div class="container-fluid mt--7">
+
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0">WAH SUBMITED</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-responsive-sm">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">SiteName</th>
+                    <th scope="col">Company</th>
+    
+                    <th scope="col">Planned Date</th>
+                    <th scope="col">Work Order</th>
+                   
+                    
+                    <th scope="col">JobDescription</th>
+                    <th scope="col">Detail WAH</th>
+                  </tr>
+                </thead>
+                {% for work in pendingworkdetail %}
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <a href="#" class="avatar rounded-circle mr-1">
+                          <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
+                        </a>
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{work.caller}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{work.company}}
+                    </td>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{work.planned_date}}
+                      </span>
+                    </td>
+                    <td>
+                      {{work.workorder}}
+                    </td>
+                    
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">{{work.job_description}}</span>
+                        
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="{% url 'seedetail' work.id %}">รายละเอียดอื่นๆ</a>
+                         
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                </tbody>
+
+               {% endfor %}
+              </table>
+            </div>
+            
+
+            <nav aria-label="pagination">
+                  {% if pendings.paginator.num_pages > 1 %}
+                  <ul class="pagination justify-content-end mb-5">
+                        {% for page_number in pendings.paginator.page_range %}
+                          <li class="page-item
+                          {% comment %} กำหนดให้แสดงสีเข้มตรงเลขหน้าที่กำลังใช้งานอยู่ {% endcomment %}
+                          {% if pendings.number == page_number %}
+                                active
+                          {% endif %}
+                          "><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                        {% endfor %}
+                  </ul>
+                  {% endif %}
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- Dark table -->
+      <div class="row mt-5">
+        <div class="col">
+          <div class="card bg-default shadow">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="text-white mb-0">WAH ON SITE</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-dark table-flush">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Site Name</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Check In</th>
+                    <th scope="col">FM CBRE</th>
+                    <th scope="col">Job Description</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+
+
+
+                {% for wah in count_wah_onsite %}
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{wah.caller}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    
+                    <td>
+                     {{wah.company}}
+                    </td>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{wah.startwork}}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{wah.fm}}
+                      </span>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">{{wah.job_description}}%</span>
+                        <div>
+                          
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                         <a class="dropdown-item" href="{% url 'seedetail' wah.id %}">รายละเอียดอื่นๆ</a>
+                          
+                        </div>
+                      </div>
+                    </td>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+            <nav aria-label="pagination">
+                  {% if wah.paginator.num_pages > 1 %}
+                  <ul class="pagination justify-content-end mb-5">
+                        {% for page_number in wah.paginator.page_range %}
+                          <li class="page-item
+                          {% comment %} กำหนดให้แสดงสีเข้มตรงเลขหน้าที่กำลังใช้งานอยู่ {% endcomment %}
+                          {% if wah.number == page_number %}
+                                active
+                          {% endif %}
+                          "><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                        {% endfor %}
+                  </ul>
+                  {% endif %}
+            </nav>
+          </div>
+        </div>
+      </div>
+
+
+    
+    </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

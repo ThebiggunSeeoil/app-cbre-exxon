@@ -13,6 +13,7 @@ Django==2.1.15
 django-background-tasks==1.2.5
 django-compat==1.0.15
 django-crispy-forms==1.9.2
+django-heroku==0.3.1
 django-import-export==2.4.0
 et-xmlfile==1.0.1
 google-api-core==1.23.0

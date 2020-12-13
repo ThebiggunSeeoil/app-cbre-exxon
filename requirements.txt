@@ -42,7 +42,7 @@ pyasn1-modules==0.2.8
 pycodestyle==2.6.0
 PyMySQL==0.10.1
 pyobjc==7.0.1
-pyobjc-core==6.2.2
+
 pyobjc-framework-Cocoa==6.2.2
 pyobjc-framework-iTunesLibrary==7.0.1
 pyobjc-framework-libdispatch==7.0.1

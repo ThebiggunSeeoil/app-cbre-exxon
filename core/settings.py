@@ -23,7 +23,7 @@ DEBUG = config('DEBUG', default=False)
 # DEBUG = False
 
 # load production server from .env
-ALLOWED_HOSTS = ['git.heroku.com/cbre-exxon-apps.git', '8ff8774654dc.ngrok.io','127.0.0.1', config('SERVER', default='127.0.0.1')]
+ALLOWED_HOSTS = ['git.heroku.com/cbre-exxon-apps.git', '5e00eb5d27dc.ngrok.io','127.0.0.1', config('SERVER', default='127.0.0.1')]
 #ALLOWED_HOSTS = ['cbre-exxon-app.herokuapp.com']
 
 # Application definition

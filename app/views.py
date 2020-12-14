@@ -249,8 +249,11 @@ def editwah (request,id):
 def updatewah (request,id):
     if request.method == "POST" : 
         if  request.POST.get('fls_mame') :
+            print ('fls name is',request.POST.get('fls_mame'))
             token=PersanalDetaillogin.objects.filter(name=request.POST.get('fls_mame')).values_list('group_id')[0][0]
+            print ('Token is',token)
         if request.POST.get('planned_date') :
+            print (request.POST.get('planned_date'))
             ID = request.POST.get('id')
             planned_update= request.POST.get('planned_date')
             udpatedatawah=WahSubmitforcontractor.objects.filter(id=id).update(planned_date=planned_update)
@@ -276,7 +279,7 @@ def seedetail (request,id):
         wah_status=workforedit.wah_status
         planned_date=workforedit.planned_date
         job_description=workforedit.job_description
-        fls_mame=workforedit.fls_mame
+        fls_mame=workforedit.fls_mame_1
         fls_phone=workforedit.fls_phone
         management=workforedit.management
         remark=workforedit.remark

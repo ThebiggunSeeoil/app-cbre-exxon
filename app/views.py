@@ -24,7 +24,7 @@ from django.views.decorators.csrf import csrf_exempt
 from app.createflexmessage import *
 from linebot.views import PushMessage , send_notify
 import datetime
-import schedule
+# import schedule
 
 
 

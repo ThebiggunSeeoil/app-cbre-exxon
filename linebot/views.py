@@ -11,14 +11,14 @@ from linebot.rich_menu_function import *
 from app.models import Workfromgmail
 
 from django.contrib.auth.models import Group, User
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+# from googleapiclient.discovery import build
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from google.auth.transport.requests import Request
 import pickle
 import os.path
 import base64
 import email
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 
 Channel_access_token=settings.LINE_CHANNEL_ACCESS_TOKEN
 

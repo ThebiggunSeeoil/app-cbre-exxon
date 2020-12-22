@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'app' ,
     'import_export',
     'linebot.apps.LinebotConfig',
-    'background_task'
+    
 ]
 
 MIDDLEWARE = [

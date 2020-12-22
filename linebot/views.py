@@ -21,7 +21,7 @@ import email
 # from bs4 import BeautifulSoup
 
 Channel_access_token=settings.LINE_CHANNEL_ACCESS_TOKEN
-
+#ddddddddd
 # this is for testing
 def index(request):
     return HttpResponse("test!!")

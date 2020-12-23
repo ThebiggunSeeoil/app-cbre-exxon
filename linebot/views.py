@@ -19,6 +19,7 @@ import os.path
 import base64
 import email
 # from bs4 import BeautifulSoup
+#0000000
 
 Channel_access_token=settings.LINE_CHANNEL_ACCESS_TOKEN
 #ddddddddd

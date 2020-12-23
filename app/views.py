@@ -120,14 +120,17 @@ def contractorreport(request) :
     #สร้างการเชื่อมต่อ sql ที่นี่ 
     if request.user.is_authenticated:
         contractor_id = request.user.groups.values_list('id', flat=True).first() #เรียกหา GroupID
+        contractor = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
+        request.session['contractor_id'] = contractor_id
+        request.session['contractor'] = contractor
         # contractor='KVM ENGINEERING CO.,LTD'
-        pendingworks=Workfromgmail.objects.filter(service_id=contractor_id) # ดึงอีเมลล์จากฐานข้อมูล เงื่อนไข คือ อีเมลล์ตรงกัน
-        pendingcount=Workfromgmail.objects.filter(service_id=contractor_id).count()
+        pendingworks=Workfromgmail.objects.filter(service_id=request.session['contractor_id']) # ดึงอีเมลล์จากฐานข้อมูล เงื่อนไข คือ อีเมลล์ตรงกัน
+        pendingcount=Workfromgmail.objects.filter(service_id=request.session['contractor_id']).count()
         # completedcount=WorkPending.objects.filter(status=status_completed,service_provider=contractor).count()
-        wah_submited=WahSubmitforcontractor.objects.filter(company_id=contractor_id,status="in planing")
-        wah_submitedcount=WahSubmitforcontractor.objects.filter(company_id=contractor_id,status="in planing").count()
-        wah_onsite=WahSubmitforcontractor.objects.filter(company_id=contractor_id,status="onsite").count()
-        wah_completed=WahSubmitforcontractor.objects.filter(company_id=contractor_id,status="completed").count()
+        wah_submited=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="in planing")
+        wah_submitedcount=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="in planing").count()
+        wah_onsite=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="onsite").count()
+        wah_completed=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="completed").count()
         print ('CompletedWork',wah_completed)
         
         #print (current_user.id)
@@ -150,16 +153,16 @@ def contractorreport(request) :
 @login_required(login_url='singIn') # เป็นการบังคับให้ login ก่อนทำการกดสักซื้อ
 def addWAH(request,workorder):
     # status_pending ='INPRG'
-    global contractor_id
-    contractor = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
-    contractor_id = request.user.groups.values_list('id', flat=True).first() #เรียกหา GroupID
-    description=Workfromgmail.objects.filter(service_id=contractor_id, workorder=workorder)
-    pendingcount=Workfromgmail.objects.filter(service_id=contractor_id).count()
-    wah_submitedcount=WahSubmitforcontractor.objects.filter(company_id=contractor_id,wah_status="submited").count()
-    wah_onsite=WahSubmitforcontractor.objects.filter(company_id=contractor_id,status="onsite").count()
-    wah_completed=WahSubmitforcontractor.objects.filter(company_id=contractor_id,status="completed").count()
+    # global contractor_id
+    # contractor = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
+    # contractor_id = request.user.groups.values_list('id', flat=True).first() #เรียกหา GroupID
+    description=Workfromgmail.objects.filter(service_id=request.session['contractor_id'], workorder=workorder)
+    pendingcount=Workfromgmail.objects.filter(service_id=request.session['contractor_id']).count()
+    wah_submitedcount=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],wah_status="submited").count()
+    wah_onsite=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="onsite").count()
+    wah_completed=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="completed").count()
     fm_detail=PersanalDetaillogin.objects.filter(company='CBRE')
-    fls_detail=PersanalDetaillogin.objects.filter(company_id=contractor_id)
+    fls_detail=PersanalDetaillogin.objects.filter(company_id=request.session['contractor_id'])
     for workdescription in description :
         print (workdescription)
         work_detail= (workdescription.problum)
@@ -168,7 +171,7 @@ def addWAH(request,workorder):
     print (description)
     # new_wah.save()
     
-    return render (request,'submit_wah.html',{'workorder':workorder , 'contractor':contractor, 'workdetail':work_detail , 'sitename':sitename,'wahsubited':wah_submitedcount ,'wah_onsite':wah_onsite , 'wah_completed':wah_completed , 'pendingcount':pendingcount , 'fm_detail':fm_detail ,"fls_detail":fls_detail})
+    return render (request,'submit_wah.html',{'workorder':workorder , 'contractor':request.session['contractor'], 'workdetail':work_detail , 'sitename':sitename,'wahsubited':wah_submitedcount ,'wah_onsite':wah_onsite , 'wah_completed':wah_completed , 'pendingcount':pendingcount , 'fm_detail':fm_detail ,"fls_detail":fls_detail})
 
 @login_required(login_url='singIn') # เป็นการบังคับให้ login ก่อนทำการกดสักซื้อ
 def addWAHtoDB(request):
@@ -207,7 +210,7 @@ def addWAHtoDB(request):
             save_record.openned=open_work
             save_record.wah_status=wah_status
             save_record.status=status_onsite
-            save_record.company_id=contractor_id
+            save_record.company_id=request.session['contractor_id']
             save_record.save(request)
             data_3=creatinglinemessages.submit_notify(request)
             send_notify(data_3,token)
@@ -218,8 +221,8 @@ def addWAHtoDB(request):
 @login_required(login_url='singIn') # เป็นการบังคับให้ login ก่อนทำการกดสักซื้อ
 def editwah (request,id):
     print ('id is ',id)
-    contractor = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
-    workforedit=WahSubmitforcontractor.objects.filter(company=contractor, id=id)
+    # contractor = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
+    workforedit=WahSubmitforcontractor.objects.filter(company=request.session['contractor'], id=id)
     for workforedit in workforedit :
         id=workforedit.id
         workorder=workforedit.workorder

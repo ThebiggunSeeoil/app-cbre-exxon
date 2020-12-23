@@ -15,8 +15,8 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col">
-                        <h5 class="card-title text-uppercase text-muted mb-0">WAH Submited</h5>
-                        <span class="h2 font-weight-bold mb-0">{{wahsubited}}</span>
+                        <h5 class="card-title text-uppercase text-muted mb-0">WORK TODAY</h5>
+                        <span class="h2 font-weight-bold mb-0">{{count_today_planning_work}}</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -25,7 +25,7 @@
                       </div>
                     </div>
                     <p class="mt-3 mb-0 text-muted text-sm">
-                      <span class="text-success mr-2"><i class="fa fa-arrow-up"></i></span>
+                      <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> </span>
                       <span class="text-nowrap"></span>
                     </p>
                   </div>
@@ -36,8 +36,8 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col">
-                        <h5 class="card-title text-uppercase text-muted mb-0">Pending Work</h5>
-                        <span class="h2 font-weight-bold mb-0">{{pendingcount}}</span>
+                        <h5 class="card-title text-uppercase text-muted mb-0">WORK TOMORROW</h5>
+                        <span class="h2 font-weight-bold mb-0">{{count_tomorrow_planning_work}}</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -57,8 +57,8 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col">
-                        <h5 class="card-title text-uppercase text-muted mb-0">WAH Work at site</h5>
-                        <span class="h2 font-weight-bold mb-0">{{wah_onsite}}</span>
+                        <h5 class="card-title text-uppercase text-muted mb-0">WORK AT SITE</h5>
+                        <span class="h2 font-weight-bold mb-0">{{count_wah_onsite_count}}</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -78,8 +78,8 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col">
-                        <h5 class="card-title text-uppercase text-muted mb-0">WAH Completed Work</h5>
-                        <span class="h2 font-weight-bold mb-0">{{wah_completed}}</span>
+                        <h5 class="card-title text-uppercase text-muted mb-0">M&R WORK COMPLETED</h5>
+                        <span class="h2 font-weight-bold mb-0">{{count_wah_completed_count}}</span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -113,7 +113,7 @@
                         <div class="form-group row">
                         <label class="col-sm-3 col-form-label">PLANNED DATE</label>
                         <div class="col-sm-9">
-                            <input class="form-control" type="date" placeholder="dd/mm/yyyy ระบุวันที่จะเข้าดำเนินการ"  value="{{planned_date}}"  name='planned_date' required/>
+                            <input class="form-control"  value="{{planned_date}}"  name='planned_date' required/>
                         </div>
                         </div>
                     </div>

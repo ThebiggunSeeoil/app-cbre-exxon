@@ -24,10 +24,13 @@ from django.views.decorators.csrf import csrf_exempt
 from app.createflexmessage import *
 from linebot.views import PushMessage , send_notify
 import datetime
+import arrow
 # import schedule
 
-
-
+# date = arrow.now().format('YYYY-MM-DD')
+# date_new = arrow.now()
+today = datetime.datetime.now().strftime("%Y-%m-%d")
+tomorrow = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 @login_required(login_url="/login/")
 def index(request):
     if request.user.is_authenticated:
@@ -35,17 +38,24 @@ def index(request):
         group = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
         if group == 'CBRE':
             status_pending ='INPRG'
-            countpendingworks=WorkPending.objects.filter(status=status_pending).count()
-            count_wah_submitedcount=WahSubmitforcontractor.objects.filter(status='in planing').count()
+            count_today_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(today)).count()
+            count_tomorrow_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(tomorrow)).count()
             count_wah_onsite_count=WahSubmitforcontractor.objects.filter(status='onsite').count()
             count_wah_completed_count=WahSubmitforcontractor.objects.filter(status='completed').count()
-            pendingworkdetail=WahSubmitforcontractor.objects.filter(status='in planing') 
+            request.session['count_tomorrow_planning_work'] = count_tomorrow_planning_work
+            request.session['count_today_planning_work'] = count_today_planning_work
+            request.session['count_wah_onsite_count'] = count_wah_onsite_count
+            request.session['count_wah_completed_count'] = count_wah_completed_count
+            submited_work=WahSubmitforcontractor.objects.filter(status='in planing') 
+            today_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(today)) 
+            tomorrow_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(tomorrow)) 
+            work_at_site=WahSubmitforcontractor.objects.filter(status='onsite') 
             pendingworkdetailmycompany=WahSubmitforcontractor.objects.annotate(lower_title=Lower('status')).values('status').annotate(num=Count('status')).order_by('company')
             pendingworkdetail2=WahSubmitforcontractor.objects.filter(status='in planing').count() | WahSubmitforcontractor.objects.filter(status='onsite').count()
             count_wah_onsite=WahSubmitforcontractor.objects.filter(status='onsite')
             print (pendingworkdetail2)
             
-            return render(request, "index.html",{'count_wah_onsite':count_wah_onsite,'countpendingworks':countpendingworks , 'count_wah_submitedcount':count_wah_submitedcount ,'count_wah_onsite_count':count_wah_onsite_count , 'count_wah_completed_count':count_wah_completed_count , 'pendingworkdetail':pendingworkdetail , 'pendingworkdetailmycompany':pendingworkdetailmycompany})
+            return render(request, "index.html",{'work_at_site':work_at_site,'tomorrow_planning_work':tomorrow_planning_work,'today_planning_work':today_planning_work ,'count_wah_onsite':count_wah_onsite,'count_today_planning_work':count_today_planning_work , 'count_tomorrow_planning_work':count_tomorrow_planning_work ,'count_wah_onsite_count':count_wah_onsite_count , 'count_wah_completed_count':count_wah_completed_count , 'submited_work':submited_work , 'pendingworkdetailmycompany':pendingworkdetailmycompany})
         else:
             return redirect("contractor") #ส่งค่าไปแสดงผลที่ index.html 
             #return redirect(request,'contractor.html',{'group':group , 'id':current_user.id}) #ส่งค่าไปแสดงผลที่ index.html 
@@ -291,7 +301,7 @@ def seedetail (request,id):
         any_ssw=workforedit.any_ssw
         physical=workforedit.physical
         fm=workforedit.fm 
-    return render (request,'seedetailofwork.html',{'workorder':workorder ,'company':company ,'opended':opended , 'status':status , 'startwork':startwork , 'completedwork':completedwork , 'caller':caller , 'wah_status':wah_status , 'planned_date':planned_date , 'job_description':job_description , 'fls_mame':fls_mame , 'fls_phone':fls_phone , 'management':management , 'remark':remark , 'type_job':type_job , 'jla_ra':jla_ra , 'any_ssw':any_ssw , 'physical':physical , 'fm':fm })
+    return render (request,'seedetailofwork.html',{'count_wah_completed_count':request.session['count_wah_completed_count'],'count_wah_onsite_count':request.session['count_wah_onsite_count'],'count_tomorrow_planning_work':request.session['count_tomorrow_planning_work'],'count_today_planning_work':request.session['count_today_planning_work'],'workorder':workorder ,'company':company ,'opended':opended , 'status':status , 'startwork':startwork , 'completedwork':completedwork , 'caller':caller , 'wah_status':wah_status , 'planned_date':planned_date , 'job_description':job_description , 'fls_mame':fls_mame , 'fls_phone':fls_phone , 'management':management , 'remark':remark , 'type_job':type_job , 'jla_ra':jla_ra , 'any_ssw':any_ssw , 'physical':physical , 'fm':fm })
 
 def liffpage (requests):
     return render (requests,'liffpagelogin.html')

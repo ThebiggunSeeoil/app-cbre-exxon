@@ -18,8 +18,8 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Total M&R Pending Work</h5>
-                      <span class="h2 font-weight-bold mb-0">{{countpendingworks}}</span>
+                      <h5 class="card-title text-uppercase text-muted mb-0">WORK TODAY</h5>
+                      <span class="h2 font-weight-bold mb-0">{{count_today_planning_work}}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -39,8 +39,8 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">WAH WORK Pending</h5>
-                      <span class="h2 font-weight-bold mb-0">{{count_wah_submitedcount}}</span>
+                      <h5 class="card-title text-uppercase text-muted mb-0">WORK TOMORROW</h5>
+                      <span class="h2 font-weight-bold mb-0">{{count_tomorrow_planning_work}}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -60,7 +60,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">WAH WORK ON SITE</h5>
+                      <h5 class="card-title text-uppercase text-muted mb-0">WORK AT SITE</h5>
                       <span class="h2 font-weight-bold mb-0">{{count_wah_onsite_count}}</span>
                     </div>
                     <div class="col-auto">
@@ -81,7 +81,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Total WAH Completed</h5>
+                      <h5 class="card-title text-uppercase text-muted mb-0">M&R WORK COMPLETED</h5>
                       <span class="h2 font-weight-bold mb-0">{{count_wah_completed_count}}</span>
                     </div>
                     <div class="col-auto">
@@ -166,11 +166,100 @@
       <div class="container-fluid mt--7">
 
       <!-- Table -->
+      
+      <br>
+      <div class="row mt-5">
+        <div class="col">
+          <div class="card bg-default shadow">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="text-white mb-0">M&R WORK PLANNING DATE TODAY</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-dark table-flush">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Site Name</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Planned Date</th>
+                    <th scope="col">Work Order</th>
+                    <th scope="col">Job Description</th>
+                    <th scope="col">More Detail</th>
+                  </tr>
+                </thead>
+
+
+
+                {% for wah in today_planning_work %}
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{wah.caller}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    
+                    <td>
+                     {{wah.company}}
+                    </td>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{wah.planned_date}}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-warning"></i> {{wah.workorder}}
+                      </span>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">{{wah.job_description}}%</span>
+                        <div>
+                          
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                         <a class="dropdown-item" href="{% url 'seedetail' wah.id %}">รายละเอียดอื่นๆ</a>
+                          
+                        </div>
+                      </div>
+                    </td>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+            <nav aria-label="pagination">
+                  {% if wah.paginator.num_pages > 1 %}
+                  <ul class="pagination justify-content-end mb-5">
+                        {% for page_number in wah.paginator.page_range %}
+                          <li class="page-item
+                          {% comment %} กำหนดให้แสดงสีเข้มตรงเลขหน้าที่กำลังใช้งานอยู่ {% endcomment %}
+                          {% if wah.number == page_number %}
+                                active
+                          {% endif %}
+                          "><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                        {% endfor %}
+                  </ul>
+                  {% endif %}
+            </nav>
+          </div>
+        </div>
+      </div>
+      <br>
       <div class="row">
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
-              <h3 class="mb-0">WAH SUBMITED</h3>
+              <h3 class="mb-0">M&R WORK PLANNING DATE TOMORROW </h3>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center table-responsive-sm">
@@ -184,10 +273,10 @@
                    
                     
                     <th scope="col">JobDescription</th>
-                    <th scope="col">Detail WAH</th>
+                    <th scope="col">More Detail</th>
                   </tr>
                 </thead>
-                {% for work in pendingworkdetail %}
+                {% for work in tomorrow_planning_work %}
                 <tbody>
                   <tr>
                     <th scope="row">
@@ -260,7 +349,7 @@
         <div class="col">
           <div class="card bg-default shadow">
             <div class="card-header bg-transparent border-0">
-              <h3 class="text-white mb-0">WAH ON SITE</h3>
+              <h3 class="text-white mb-0">M&R WORK AT SITE</h3>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center table-dark table-flush">
@@ -271,13 +360,13 @@
                     <th scope="col">Check In</th>
                     <th scope="col">FM CBRE</th>
                     <th scope="col">Job Description</th>
-                    <th scope="col"></th>
+                    <th scope="col">More Detail</th>
                   </tr>
                 </thead>
 
 
 
-                {% for wah in count_wah_onsite %}
+                {% for wah in work_at_site %}
                 <tbody>
                   <tr>
                     <th scope="row">

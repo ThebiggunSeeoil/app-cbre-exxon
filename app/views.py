@@ -11,7 +11,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.http import HttpResponse
 from django import template
-from app.models import WorkPending , SiteList  , PersanalDetaillogin , WahSubmitforcontractor , Workfromgmail
+from app.models import WorkPending , SiteList  , PersanalDetaillogin , WahSubmitforcontractor , Workfromgmail , type_of_work
 from app.resources import SiteListResource
 from django.core.paginator import Paginator, EmptyPage,InvalidPage
 from django.contrib import messages
@@ -172,6 +172,7 @@ def addWAH(request,workorder):
     wah_onsite=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="onsite").count()
     wah_completed=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="completed").count()
     fm_detail=PersanalDetaillogin.objects.filter(company='CBRE')
+    worktype_detail=type_of_work.objects.all()
     fls_detail=PersanalDetaillogin.objects.filter(company_id=request.session['contractor_id'])
     for workdescription in description :
         print (workdescription)
@@ -181,7 +182,7 @@ def addWAH(request,workorder):
     print (description)
     # new_wah.save()
     
-    return render (request,'submit_wah.html',{'workorder':workorder , 'contractor':request.session['contractor'], 'workdetail':work_detail , 'sitename':sitename,'wahsubited':wah_submitedcount ,'wah_onsite':wah_onsite , 'wah_completed':wah_completed , 'pendingcount':pendingcount , 'fm_detail':fm_detail ,"fls_detail":fls_detail})
+    return render (request,'submit_wah.html',{'worktype_detail':worktype_detail,'workorder':workorder , 'contractor':request.session['contractor'], 'workdetail':work_detail , 'sitename':sitename,'wahsubited':wah_submitedcount ,'wah_onsite':wah_onsite , 'wah_completed':wah_completed , 'pendingcount':pendingcount , 'fm_detail':fm_detail ,"fls_detail":fls_detail})
 
 @login_required(login_url='singIn') # เป็นการบังคับให้ login ก่อนทำการกดสักซื้อ
 def addWAHtoDB(request):
@@ -309,18 +310,19 @@ def liffpage (requests):
 @csrf_exempt
 def check_userid(request):
     if request.method == "POST" : 
-        global user_id
+        # global user_id
         user_id=request.POST['user_id']
+        request.session['user_id'] = user_id
         return HttpResponse('OK')
         
 def wahwork(request):
-    company_id = PersanalDetaillogin.objects.filter(line_id=user_id).values_list('company_id')[0][0]
+    company_id = PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('company_id')[0][0]
+    request.session['company_id'] = company_id
     group = Group.objects.filter(id=company_id).values_list('name')[0][0]
     if group == 'CBRE':
         count_wah_submitedcount=WahSubmitforcontractor.objects.filter(status='in planing').count()
         count_wah_onsite_count=WahSubmitforcontractor.objects.filter(status='onsite').count()
     return render (request,'liffinformationwah.html',{"count_wah_submitedcount":count_wah_submitedcount , "count_wah_onsite_count":count_wah_onsite_count , "company_id":company_id})
-
 
 def liffsubmitedwahbycontractor(request,id,type):
     if id == 3 :
@@ -329,6 +331,23 @@ def liffsubmitedwahbycontractor(request,id,type):
     else:
         print(id) #Pass for contractor
     return render (request,'liffsubmitedwahbycontractor.html',{'wah_submited_detail':wahs_submited , "type":type})
+
+def checkworkbytype(request):
+    company_id = PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('company_id')[0][0]
+    request.session['company_id'] = company_id
+    print (request.session['company_id'])
+    if request.session['company_id'] == 3 :
+        worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing').values('type_job').annotate(dcount=Count('type_job'))
+        # wahs_submited=WahSubmitforcontractor.objects.filter(status=type).values('company').annotate(dcount=Count('company'))
+        print(worktype_detail)
+    else:
+        print(id) #Pass for contractor
+    return render (request,'showcheckworkbytype.html',{'worktype_detail':worktype_detail})
+
+def checkworktype_by_contractor(request,type_job):
+    # detail=WahSubmitforcontractor.objects.filter(type_job=type_job).values('company').annotate(dcount=Count('company'))
+    # print (detail)
+    return render (request,'worktype_by_contractor.html')
 
 def liffsubmiteddetail(request,company,type):
     count_wah_submit_detail=WahSubmitforcontractor.objects.filter(status=type,company=company)

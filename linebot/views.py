@@ -9,7 +9,8 @@ from linebot.line_tamplates import *
 from app.models import PersanalDetaillogin
 from linebot.rich_menu_function import *
 from app.models import Workfromgmail
-
+import arrow
+import datetime
 from django.contrib.auth.models import Group, User
 # from googleapiclient.discovery import build
 # from google_auth_oauthlib.flow import InstalledAppFlow
@@ -44,6 +45,8 @@ def callback(request):
             opendate=payload['events'][0]['opendate']
             description=payload['events'][0]['description']
             fm=payload['events'][0]['fm']
+            # today = datetime.datetime.now().strftime("%Y-%m-%d")
+            today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
             print(vender)
             print(workorder)
             print(sitename)
@@ -58,6 +61,7 @@ def callback(request):
             save_record.service_id=service_id
             save_record.problum=description
             save_record.fm=fm
+            save_record.date_create=today
             save_record.save(request)
             return HttpResponse(200)
         else : 

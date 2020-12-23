@@ -184,13 +184,9 @@
                         <div class="col-sm-9">
                             <select class="form-control"  name="type_job">
                             <option valve="None">เลือกประเภทของงานที่จะทำ</option>
-                            <option valve="CS" >CS : งานอับอากาศ</option>
-                            <option valve="LT" >LT : งานยกด้วยเครน/Hiab </option>
-                            <option valve="EV" >EV : ขุดด้วย Backhoe/JCB</option>
-                            <option valve="SE" >SE : ลงTank Sump</option>
-                            <option valve="WAH" >WAH : ทำงานบนที่สูง</option>
-                            <option valve="HW" >HW : ความร้อนและประกายไฟ เช่น เชื่อม</option>
-                            <option valve="LOW">LOW RISK : งานอื่นๆนอกเหนือจากนี้</option>
+                            {% for detail in worktype_detail %}
+                            <option valve="{{fls.id}}" >{{detail.type_detail}}</option>
+                            {% endfor %}
                             </select>
                         </div>
                         </div>

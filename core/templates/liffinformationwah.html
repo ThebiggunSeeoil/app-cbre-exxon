@@ -1,5 +1,5 @@
 
-<h1 class="font-weight-bold" align="center">Working At High Detail</h1>
+<h1 class="font-weight-bold" align="center">M&R WORK DETAIL</h1>
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
         <div class="container-fluid p-3 my-3 bg-primary text-white">
           <div class="header-body">
@@ -10,11 +10,12 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col">
-                        <h1 class="card-title text-uppercase text-muted mb-0">WAH Submited</h1>
-                        <h1 class="card-title text-uppercase text-muted mb-0">{{count_wah_submitedcount}} Work</h1>
+                        <h1 class="card-title text-uppercase text-muted mb-0">WORK BY JOB TYPE</h1>
+                        <!-- <h1 class="card-title text-uppercase text-muted mb-0">{{count_wah_submitedcount}} Work</h1> -->
                       </div>
                       <div class="col-auto">
-                        <a href="{% url 'liffsubmitedwahbycontractor' company_id  'in planing' %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
+                        <!-- <a href="{% url 'liffsubmitedwahbycontractor' company_id  'in planing' %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a> -->
+                        <a href="{% url 'checkworkbytype' %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
                         </div>
                       </div>    
                   </div>
@@ -25,8 +26,53 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col">
-                        <h1 class="card-title text-uppercase text-muted mb-0">WAH CHECKIN </h1>
-                        <h1 class="card-title text-uppercase text-muted mb-0">{{count_wah_onsite_count}} Work</h1>
+                        <h1 class="card-title text-uppercase text-muted mb-0">WORK CHECKIN AT SITE </h1>
+                        <!-- <h1 class="card-title text-uppercase text-muted mb-0">{{count_wah_onsite_count}} Work</h1> -->
+                      </div>
+                      <div class="col-auto">
+                        <a href="{% url 'liffsubmitedwahbycontractor' company_id  'onsite' %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
+                        </div>
+                      </div>    
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <div class="card card-stats mb-4 mb-xl-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h1 class="card-title text-uppercase text-muted mb-0">WORK PLANNING TODAY </h1>
+                        <!-- <h1 class="card-title text-uppercase text-muted mb-0">{{count_wah_onsite_count}} Work</h1> -->
+                      </div>
+                      <div class="col-auto">
+                        <a href="{% url 'liffsubmitedwahbycontractor' company_id  'onsite' %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
+                        </div>
+                      </div>    
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <div class="card card-stats mb-4 mb-xl-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h1 class="card-title text-uppercase text-muted mb-0">WORK PLANNING TOMORROW </h1>
+                        <!-- <h1 class="card-title text-uppercase text-muted mb-0">{{count_wah_onsite_count}} Work</h1> -->
+                      </div>
+                      <div class="col-auto">
+                        <a href="{% url 'liffsubmitedwahbycontractor' company_id  'onsite' %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
+                        </div>
+                      </div>    
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-lg-6">
+                <div class="card card-stats mb-4 mb-xl-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                        <h1 class="card-title text-uppercase text-muted mb-0">WORK INCOMMING CHECK </h1>
+                        <!-- <h1 class="card-title text-uppercase text-muted mb-0">{{count_wah_onsite_count}} Work</h1> -->
                       </div>
                       <div class="col-auto">
                         <a href="{% url 'liffsubmitedwahbycontractor' company_id  'onsite' %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>

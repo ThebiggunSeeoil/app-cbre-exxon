@@ -2,8 +2,8 @@ from sys import modules
 from django.db import models
 from django.urls import reverse
 import datetime
-date = datetime.datetime.now()
-print (date)
+# date = datetime.datetime.now()
+# print (date)
 # Create your models here.
 class Category(models.Model):
     name=models.CharField(max_length=255,unique=True) # กำหนด unique=True เพื่อป้องกันไม่ให้ใช้ชื่อที่ซ้ำกัน
@@ -282,6 +282,7 @@ class WorkPending(models.Model):
         return self.workorder
 
 class Workfromgmail(models.Model):
+    date = datetime.datetime.now()
     workorder=models.CharField(max_length=255,blank=True,null=True)
     opended=models.CharField(max_length=255,blank=True,null=True)
     caller=models.CharField(max_length=255,blank=True,null=True)
@@ -289,6 +290,7 @@ class Workfromgmail(models.Model):
     service_id=models.IntegerField(blank=True,null=True)
     problum=models.TextField(blank=True,null=True)
     fm=models.TextField(blank=True,null=True)
+    date_create=models.DateTimeField(blank=True,null=True)
     timestramp=models.DateTimeField(default=date)
     
     class Meta :
@@ -321,9 +323,6 @@ class PersanalDetaillogin (models.Model):
     member_status=models.CharField(max_length=255,blank=True,default='none')
     timestramp=models.DateTimeField(auto_now_add=True)
     update=models.DateTimeField(auto_now=True)
-
-
-
     class Meta :
         db_table='persanaldetaillogin'
         verbose_name = 'รายการพนักงาน' # แปลงให้ข้อมูลหน้าเวบเป็นภาษาไทย 
@@ -333,6 +332,22 @@ class PersanalDetaillogin (models.Model):
     #     return self.product.price * self.quantity
     def __str__(self):
         return self.name
+
+class type_of_work (models.Model):
+    type_work=models.CharField(max_length=200,blank=True,null=True)
+    type_detail=models.CharField(max_length=200,blank=True,null=True)
+    
+    
+    class Meta :
+        db_table='type_of_work'
+        verbose_name = 'รายการทำงาน' # แปลงให้ข้อมูลหน้าเวบเป็นภาษาไทย 
+        verbose_name_plural = 'รายละเอียดชนิดของงาน' # แปลงให้ข้อมูลหน้าเวบเป็นภาษาไทย 
+    
+    # def pending_total (self):
+    #     return self.product.price * self.quantity
+    def __str__(self):
+        return self.type_detail
+
 
 
     

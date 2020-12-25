@@ -335,9 +335,9 @@ def liffsubmitedwahbycontractor(request,id,type):
 def check_type_work(request,type_check):
     company_id = PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('company_id')[0][0]
     request.session['company_id'] = company_id
-    # print ('data is',type_check)
-    # print ('Today is',today)
-    print (type_check)
+    imcomming_work=Workfromgmail.objects.filter(date=today,notify_contractor__isnull=True).values('service_provider').annotate(dcount=Count('service_provider'))
+    # print ('incomming is',imcomming_work)
+    # print (type_check)
     if request.session['company_id'] == 3 :
         if type_check == 'main_check':
             worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing').values('type_job').annotate(dcount=Count('type_job'))
@@ -345,22 +345,28 @@ def check_type_work(request,type_check):
             worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=today).values('type_job').annotate(dcount=Count('type_job'))
         if type_check == 'tomorrow':
             worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=tomorrow).values('type_job').annotate(dcount=Count('type_job'))
-        print(worktype_detail)
+        if type_check == 'incomming':
+            # เป็นการ Query ข้อมูลในตารางเดียวกันและให้ระบบ sum ข้อมูลที่เหมือนกันในแต่ละเงื่อนไขได้เลย
+            worktype_detail=Workfromgmail.objects.filter(completed_work__isnull=True).values('service_provider').annotate(date_open=Count('date', filter=Q(date=today))).annotate(submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True))).annotate(notify=Count('notify_contractor')).annotate(pending=Count('date', filter= ~Q(status_submit='yes')))
+        print (worktype_detail)
     else:
         print(id) #Pass for contractor
     return render (request,'showcheckworkbytype.html',{'worktype_detail':worktype_detail,'type':type_check})
     
 def checkworktype_by_contractor(request,type_job,type_check):
-    details=WahSubmitforcontractor.objects.filter(type_job=type_job,status='in planing').values('company').annotate(dcount=Count('company'))
-    return render (request,'worktype_by_contractor.html',{'details':details ,'type_job':type_job ,'type':type_check})
+    print (type_check)
+    if type_check == 'incomming':
+        print (type_job)
+        worktype_detail=Workfromgmail.objects.filter(date=today,notify_contractor__isnull=True).values('service_provider').annotate(dcount=Count('service_provider'))
+        return HttpResponse (200)
+    else :
+        details=WahSubmitforcontractor.objects.filter(type_job=type_job,status='in planing').values('company').annotate(dcount=Count('company'))
+        return render (request,'worktype_by_contractor.html',{'details':details ,'type_job':type_job ,'type':type_check})
 
 def detail_checkworktype_by_contractor(request,type_job,type_check):
-    print ('data is',type_check)
     type = 'in planing'
     details=WahSubmitforcontractor.objects.filter(status='in planing',type_job=type_job) 
     data=creatinglinemessages.wahsubmit(details,type)
-    # print (data)
-    # print (details)
     return render (request,'worktype_by_contractor_detail.html',{'type':type_check,'details':details , 'type_job':type_job , "data":json.dumps(data)})
     
 def checkworktoday(request):
@@ -372,8 +378,6 @@ def checkworktoday(request):
 def liffsubmiteddetail(request,company,type):
     count_wah_submit_detail=WahSubmitforcontractor.objects.filter(status=type,company=company)
     data=creatinglinemessages.wahsubmit(count_wah_submit_detail,type)
-    # print(len(data['contents']['contents']))
-    # print(data)
     return render (request,'liffsubmitedwahdetail.html',{"count_wah_submit_detail":count_wah_submit_detail , "type":type , "data":json.dumps(data)})
 
 def sendlinebot(request,company,type,workorder):
@@ -468,6 +472,7 @@ def sendlinetocbreteam(request):
     
     send_notify(data_3,token)
     return HttpResponse(200)
+
 
 
 

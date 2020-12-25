@@ -8,6 +8,8 @@ import os
 from decouple import config
 from unipath import Path
 import dj_database_url
+from django.utils import timezone
+import datetime
 #import pymysql
 #pymysql.install_as_MySQLdb()
 
@@ -20,7 +22,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False)
-# DEBUG = False
+#DEBUG = False
 
 # load production server from .env
 ALLOWED_HOSTS = ['https://cbre-exxon-appss.herokuapp.com', '279af2b4890b.ngrok.io', config('SERVER', default='127.0.0.1')]
@@ -121,7 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 #############################################################
 # SRC: https://devcenter.heroku.com/articles/django-assets
@@ -146,6 +148,7 @@ STATICFILES_DIRS = (
 #############################################################
 #############################################################
 
-
-#ddddddddddd
-#test
+now = timezone.now()
+today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+print(now)
+print (today)

@@ -282,7 +282,7 @@ class WorkPending(models.Model):
         return self.workorder
 
 class Workfromgmail(models.Model):
-    date = datetime.datetime.now()
+    date_now = datetime.datetime.now()
     workorder=models.CharField(max_length=255,blank=True,null=True)
     opended=models.CharField(max_length=255,blank=True,null=True)
     caller=models.CharField(max_length=255,blank=True,null=True)
@@ -290,13 +290,43 @@ class Workfromgmail(models.Model):
     service_id=models.IntegerField(blank=True,null=True)
     problum=models.TextField(blank=True,null=True)
     fm=models.TextField(blank=True,null=True)
-    date_create=models.DateTimeField(blank=True,null=True)
-    timestramp=models.DateTimeField(default=date)
+    status_submit=models.CharField(max_length=255,blank=True,null=True)
+    timestramp=models.DateTimeField(auto_now_add=True)
+    time_create=models.CharField(max_length=255,blank=True,null=True)
+    date=models.CharField(max_length=255,blank=True,null=True)
+    notify_contractor=models.CharField(max_length=255,blank=True,null=True)
+    completed_work=models.CharField(max_length=255,blank=True,null=True)
+    
     
     class Meta :
         db_table='Workfromgmail'
         verbose_name = 'งาน work from gmail ' # แปลงให้ข้อมูลหน้าเวบเป็นภาษาไทย 
         verbose_name_plural = 'รายละเอียดงาน work from gmail' # แปลงให้ข้อมูลหน้าเวบเป็นภาษาไทย 
+    
+    # def pending_total (self):
+    #     return self.product.price * self.quantity
+
+    def __str__(self):
+        return self.workorder
+
+class Workfromgmail_new (models.Model):
+    
+    workorder=models.CharField(max_length=255,blank=True,null=True)
+    opended=models.CharField(max_length=255,blank=True,null=True)
+    caller=models.CharField(max_length=255,blank=True,null=True)
+    service_provider=models.CharField(max_length=255,blank=True,null=True)
+    service_id=models.IntegerField(blank=True,null=True)
+    problum=models.TextField(blank=True,null=True)
+    fm=models.TextField(blank=True,null=True)
+    date_create=models.DateTimeField(auto_now_add=True)
+    time_make=models.DateTimeField(auto_now_add=True)
+    time_create=models.CharField(max_length=255,blank=True,null=True)
+    
+    
+    class Meta :
+        db_table='Workfromgmail_new'
+        verbose_name = 'งาน work from gmail new ' # แปลงให้ข้อมูลหน้าเวบเป็นภาษาไทย 
+        verbose_name_plural = 'รายละเอียดงาน work from gmail new' # แปลงให้ข้อมูลหน้าเวบเป็นภาษาไทย 
     
     # def pending_total (self):
     #     return self.product.price * self.quantity

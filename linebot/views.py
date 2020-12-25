@@ -8,7 +8,7 @@ import requests
 from linebot.line_tamplates import *
 from app.models import PersanalDetaillogin
 from linebot.rich_menu_function import *
-from app.models import Workfromgmail
+from app.models import Workfromgmail , Workfromgmail_new
 import arrow
 import datetime
 from django.contrib.auth.models import Group, User
@@ -45,14 +45,8 @@ def callback(request):
             opendate=payload['events'][0]['opendate']
             description=payload['events'][0]['description']
             fm=payload['events'][0]['fm']
-            # today = datetime.datetime.now().strftime("%Y-%m-%d")
-            today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            print(vender)
-            print(workorder)
-            print(sitename)
-            print(opendate)
-            print(description)
-            print(fm)
+            today_time_email = datetime.datetime.now().strftime("%H:%M")
+            today_date_email = datetime.datetime.now().strftime("%Y-%m-%d")
             save_record=Workfromgmail()
             save_record.workorder=workorder
             save_record.opended=opendate
@@ -60,8 +54,9 @@ def callback(request):
             save_record.service_provider=vender
             save_record.service_id=service_id
             save_record.problum=description
+            save_record.time_create=today_time_email
+            save_record.date=today_date_email
             save_record.fm=fm
-            save_record.date_create=today
             save_record.save(request)
             return HttpResponse(200)
         else : 
@@ -70,7 +65,6 @@ def callback(request):
             global User_id
             Reply_token = payload['events'][0]['replyToken']
             User_id = payload['events'][0]['source']['userId']
-            #print (payload)
             if payload['events'][0]['type'] == 'follow':
                 ReplyMessage(line_templates.Gressing_msg())
                 return HttpResponse(200)

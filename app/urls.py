@@ -11,12 +11,7 @@ admin.site.site_header = 'EXXON-CBRE TEAM THAILAND'
 admin.site.site_title = 'EXXON-CBRE TEAM THAILAND'
 
 urlpatterns = [
-    # Matches any html file - to be used for gentella
-    # Avoid using your .html in your resources.
-    # Or create a separate django app.
     re_path(r'^.*\.html', views.pages, name='pages'),
-
-    # The home page
     path('', views.index, name='home'),
     path('report/contractor',views.contractorreport,name='contractor'),
     path('addrequest/<int:workorder>',views.addWAH,name='add_wah'), # รับค่าจาก contractor.html เพื่อส่งไป Submit WAH
@@ -28,11 +23,8 @@ urlpatterns = [
     path('liffpage/',views.liffpage,name='liffpage'),
     path('check_userid/',views.check_userid,name='check_userid'), # รับค่าจาก javascript
     path('wahwork/',views.wahwork,name='wahwork'),
-
     path('liffsubmitedwahbycontractor<int:id> + <str:type>',views.liffsubmitedwahbycontractor,name='liffsubmitedwahbycontractor'),
     path('check_type_work<str:type_check>',views.check_type_work,name='check_type_work'),
-    
-    
     path('checkworktype_by_contractor<str:type_job>+<str:type_check>/',views.checkworktype_by_contractor,name='checkworktype_by_contractor'),
     path('checkworktoday/',views.checkworktoday,name='checkworktoday'),
     path('detail_checkworktype_by_contractor<str:type_job>+<str:type_check>/',views.detail_checkworktype_by_contractor,name='detail_checkworktype_by_contractor'),

@@ -1,0 +1,51 @@
+{% load static %}
+
+
+{% if type == 'main_check'%}
+<h1 class="font-weight-bold" align="center">DETAIL WORK {{type_job}} BY CONTRACTOR </h1>
+{% elif type == 'today' %}
+<h1 class="font-weight-bold" align="center">DETAIL WORK {{type_job}} BY TODAY </h1>
+{% elif type == 'tomorrow' %}
+<h1 class="font-weight-bold" align="center">DETAIL WORK {{type_job}} BY TOMORROW </h1>
+{% endif %}
+
+<br>
+<div class="col-lg-8">
+<button onclick="send_messages('{{data}}');" class="btn btn-primary btn-lg" >SEND  TO LINE  CHAT ROOM !!! CLICK !!!</button>
+</div>
+{% for data in details %}
+
+<br>
+
+<div class="card bg-light mb-3">
+  <h2 class="card-header">{{data.caller}}</h2>
+  <div class="card-body">
+    <h2 class="card-title">{{data.company}}</h2>
+    <p style="font-size:30px;" class="card-text">WorkDetail :</p>
+    <p style="font-size:30px;" class="card-text">{{data.job_description}}</p>
+    <p style="font-size:30px;" class="card-text">WorkOrder : {{data.workorder}}</p>
+    <p style="font-size:30px;" class="card-text">FLS NAME : {{data.fls_mame_1}}</p>
+    <p style="font-size:30px;" class="card-text">MANAGEMENT VISIT NAME : {{data.management}}</p>
+    <p style="font-size:30px;" class="card-text">TYPE OF JOB : {{data.type_job}}</p>
+    <p style="font-size:30px;" class="card-text">ANY SSW WORKER INVOLVED? </p>
+    <p style="font-size:30px;" class="card-text">{{data.any_ssw}}</p>
+    <p style="font-size:30px;" class="card-text">JPHYSICAL OR VIRTUAL OBSERVATION? : </p>
+    <p style="font-size:30px;" class="card-text">{{data.physical}}</p>
+    <p style="font-size:30px;" class="card-text">CBRE FM เจ้าของงาน : {{data.fm}}</p>
+    <p style="font-size:30px;" class="card-text">REMARKS : </p>
+    <p style="font-size:30px;" class="card-text">{{data.remark}}</p>
+  </div>
+</div> 
+{% endfor %}
+
+
+
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></scrip>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<script src = {% static "assets/js/send_messages.js" %}> </script>

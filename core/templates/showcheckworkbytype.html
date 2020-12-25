@@ -1,25 +1,30 @@
 
 
 
+{% if type == 'main_check'%}
+<h1 class="font-weight-bold" align="center">M&R WORK BY TYPE </h1>
+{% elif type == 'today' %}
+<h1 class="font-weight-bold" align="center">M&R WORK BY TYPE BY TODAY </h1>
+{% elif type == 'tomorrow' %}
+<h1 class="font-weight-bold" align="center">M&R WORK BY TYPE BY TOMORROW </h1>
+{% endif %}
+
                 {% for detail in worktype_detail %}
                         <div class="container-fluid p-3 my-3 bg-primary text-white">
                           <div class="header-body">
                             <!-- Card stats -->
                             <div class="row">
-
-
-
                               <div class="col-xl-3 col-lg-6">
                                 <div class="card card-stats mb-4 mb-xl-0">
                                   <div class="card-body">
                                     <div class="row">
                                       <div class="col">
-                                        <h1 class="card-title text-uppercase text-muted mb-0">{{detail.type_job}} {{detail.dcount}} Work</h1>
-                                        <!-- <h1 class="card-title text-uppercase text-muted mb-0">{{detail.dcount}} Work</h1> -->
+                                        <h1 class="card-title text-uppercase text-muted mb-0">{{detail.type_job}} </h1>
+                                        <h1 class="card-title text-uppercase text-muted mb-0">{{detail.dcount}} Work</h1>
                                       </div>
                                       <div class="col-auto">
                                   
-                                        <a href="{% url 'checkworktype_by_contractor'  detail.type_job  %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
+                                        <a href="{% url 'checkworktype_by_contractor' detail.type_job type %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
                                         </div>
                                       </div>    
                                   </div>

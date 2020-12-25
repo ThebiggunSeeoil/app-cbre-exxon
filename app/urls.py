@@ -28,9 +28,14 @@ urlpatterns = [
     path('liffpage/',views.liffpage,name='liffpage'),
     path('check_userid/',views.check_userid,name='check_userid'), # รับค่าจาก javascript
     path('wahwork/',views.wahwork,name='wahwork'),
+
     path('liffsubmitedwahbycontractor<int:id> + <str:type>',views.liffsubmitedwahbycontractor,name='liffsubmitedwahbycontractor'),
-    path('checkworkbytype/',views.checkworkbytype,name='checkworkbytype'),
-    path('checkworktype_by_contractor<str:type>/',views.checkworktype_by_contractor,name='checkworktype_by_contractor'),
+    path('check_type_work<str:type_check>',views.check_type_work,name='check_type_work'),
+    
+    
+    path('checkworktype_by_contractor<str:type_job>+<str:type_check>/',views.checkworktype_by_contractor,name='checkworktype_by_contractor'),
+    path('checkworktoday/',views.checkworktoday,name='checkworktoday'),
+    path('detail_checkworktype_by_contractor<str:type_job>+<str:type_check>/',views.detail_checkworktype_by_contractor,name='detail_checkworktype_by_contractor'),
     path('liffsubmiteddetail<str:company>+<str:type>/',views.liffsubmiteddetail,name='liffsubmiteddetail'),
     path('sendlinebot<str:company>+<str:type>+<str:workorder>/',views.sendlinebot,name='sendlinebot'),
     path('checkinwork/',views.checkinwork,name='checkinwork'),

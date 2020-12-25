@@ -38,8 +38,8 @@ def index(request):
         group = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
         if group == 'CBRE':
             status_pending ='INPRG'
-            count_today_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(today)).count()
-            count_tomorrow_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(tomorrow)).count()
+            count_today_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(today),status='in planing').count()
+            count_tomorrow_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(tomorrow),status='in planing').count()
             count_wah_onsite_count=WahSubmitforcontractor.objects.filter(status='onsite').count()
             count_wah_completed_count=WahSubmitforcontractor.objects.filter(status='completed').count()
             request.session['count_tomorrow_planning_work'] = count_tomorrow_planning_work
@@ -47,8 +47,8 @@ def index(request):
             request.session['count_wah_onsite_count'] = count_wah_onsite_count
             request.session['count_wah_completed_count'] = count_wah_completed_count
             submited_work=WahSubmitforcontractor.objects.filter(status='in planing') 
-            today_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(today)) 
-            tomorrow_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(tomorrow)) 
+            today_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(today),status='in planing') 
+            tomorrow_planning_work=WahSubmitforcontractor.objects.filter(planned_date=str(tomorrow),status='in planing') 
             work_at_site=WahSubmitforcontractor.objects.filter(status='onsite') 
             pendingworkdetailmycompany=WahSubmitforcontractor.objects.annotate(lower_title=Lower('status')).values('status').annotate(num=Count('status')).order_by('company')
             pendingworkdetail2=WahSubmitforcontractor.objects.filter(status='in planing').count() | WahSubmitforcontractor.objects.filter(status='onsite').count()
@@ -332,27 +332,47 @@ def liffsubmitedwahbycontractor(request,id,type):
         print(id) #Pass for contractor
     return render (request,'liffsubmitedwahbycontractor.html',{'wah_submited_detail':wahs_submited , "type":type})
 
-def checkworkbytype(request):
+def check_type_work(request,type_check):
     company_id = PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('company_id')[0][0]
     request.session['company_id'] = company_id
-    print (request.session['company_id'])
+    # print ('data is',type_check)
+    # print ('Today is',today)
+    print (type_check)
     if request.session['company_id'] == 3 :
-        worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing').values('type_job').annotate(dcount=Count('type_job'))
-        # wahs_submited=WahSubmitforcontractor.objects.filter(status=type).values('company').annotate(dcount=Count('company'))
+        if type_check == 'main_check':
+            worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing').values('type_job').annotate(dcount=Count('type_job'))
+        if type_check == 'today':
+            worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=today).values('type_job').annotate(dcount=Count('type_job'))
+        if type_check == 'tomorrow':
+            worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=tomorrow).values('type_job').annotate(dcount=Count('type_job'))
         print(worktype_detail)
     else:
         print(id) #Pass for contractor
-    return render (request,'showcheckworkbytype.html',{'worktype_detail':worktype_detail})
+    return render (request,'showcheckworkbytype.html',{'worktype_detail':worktype_detail,'type':type_check})
+    
+def checkworktype_by_contractor(request,type_job,type_check):
+    details=WahSubmitforcontractor.objects.filter(type_job=type_job,status='in planing').values('company').annotate(dcount=Count('company'))
+    return render (request,'worktype_by_contractor.html',{'details':details ,'type_job':type_job ,'type':type_check})
 
-def checkworktype_by_contractor(request,type_job):
-    # detail=WahSubmitforcontractor.objects.filter(type_job=type_job).values('company').annotate(dcount=Count('company'))
-    # print (detail)
-    return render (request,'worktype_by_contractor.html')
+def detail_checkworktype_by_contractor(request,type_job,type_check):
+    print ('data is',type_check)
+    type = 'in planing'
+    details=WahSubmitforcontractor.objects.filter(status='in planing',type_job=type_job) 
+    data=creatinglinemessages.wahsubmit(details,type)
+    # print (data)
+    # print (details)
+    return render (request,'worktype_by_contractor_detail.html',{'type':type_check,'details':details , 'type_job':type_job , "data":json.dumps(data)})
+    
+def checkworktoday(request):
+    details=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=today) 
+    print(details)
+    return HttpResponse (200)
+
 
 def liffsubmiteddetail(request,company,type):
     count_wah_submit_detail=WahSubmitforcontractor.objects.filter(status=type,company=company)
     data=creatinglinemessages.wahsubmit(count_wah_submit_detail,type)
-    print(len(data['contents']['contents']))
+    # print(len(data['contents']['contents']))
     # print(data)
     return render (request,'liffsubmitedwahdetail.html',{"count_wah_submit_detail":count_wah_submit_detail , "type":type , "data":json.dumps(data)})
 

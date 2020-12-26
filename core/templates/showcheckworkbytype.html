@@ -23,15 +23,15 @@
                                   <div class="card-body">
                                     <div class="row">
                                       <div class="col">
-                                        <h1 class="card-title text-uppercase text-muted mb-0">{{detail.service_provider}} </h1>
-                                        <h1 class="card-title text-uppercase text-muted mb-0">received {{detail.date_open}} Work</h1>
+                            
+                                        <h1 class="card-title text-uppercase text-muted mb-0">received today {{detail.date_open}} Work</h1>
                                         <h1 class="card-title text-uppercase text-muted mb-0">Submitted {{detail.submit}} Work</h1>
                                         <h1 class="card-title text-uppercase text-muted mb-0">today pending {{detail.todaypending}} Work</h1>
-                                        <h1 class="card-title text-uppercase text-muted mb-0">Total Pending {{detail.pending}} Work</h1>
+                                        
                                       </div>
                                       <div class="col-auto">
                                   
-                                        <a href="{% url 'detail_checkworktype_by_contractor' detail.service_provider type %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
+                                        <a href="{% url 'checkworktype_by_contractor' detail.date type %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
                                         </div>
                                       </div>    
                                   </div>

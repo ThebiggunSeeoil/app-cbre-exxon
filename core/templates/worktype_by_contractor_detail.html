@@ -7,12 +7,22 @@
 <h1 class="font-weight-bold" align="center">DETAIL WORK {{type_job}} BY TODAY </h1>
 {% elif type == 'tomorrow' %}
 <h1 class="font-weight-bold" align="center">DETAIL WORK {{type_job}} BY TOMORROW </h1>
+{% elif type == 'incomming' %}
+<h1 class="font-weight-bold" align="center">WORK COMMING BY TODAY</h1>
 {% endif %}
 
+{% if type == 'incomming' %}
+
+
+
+
+{% else %}
 <br>
 <div class="col-lg-8">
 <button onclick="send_messages('{{data}}');" class="btn btn-primary btn-lg" >SEND  TO LINE  CHAT ROOM !!! CLICK !!!</button>
 </div>
+
+
 {% for data in details %}
 
 <br>
@@ -38,7 +48,7 @@
 </div> 
 {% endfor %}
 
-
+{% endif %}
 
 
 

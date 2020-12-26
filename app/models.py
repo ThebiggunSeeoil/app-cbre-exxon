@@ -5,6 +5,10 @@ import datetime
 # date = datetime.datetime.now()
 # print (date)
 # Create your models here.
+from django.contrib.auth.models import Group
+Group.add_to_class('initials_name', models.CharField(max_length=255,blank=True,null=True)) # สร้างเพื่อ add Fildes อื่นๆได้ในตาราง Group
+
+
 class Category(models.Model):
     name=models.CharField(max_length=255,unique=True) # กำหนด unique=True เพื่อป้องกันไม่ให้ใช้ชื่อที่ซ้ำกัน
     slug=models.SlugField(max_length=255,unique=True) # กำหนด เป็นการตั้งชื่อเล่นให้ข้อมูล หรือ กำหนดหมวดหมู่ หรือ Group ข้อมูล ทำให้เพิ่มความรวดเร็วในการเลือกข้อมูลแบบ Group
@@ -288,6 +292,7 @@ class Workfromgmail(models.Model):
     caller=models.CharField(max_length=255,blank=True,null=True)
     service_provider=models.CharField(max_length=255,blank=True,null=True)
     service_id=models.IntegerField(blank=True,null=True)
+    initials_name=models.CharField(max_length=255,blank=True,null=True)
     problum=models.TextField(blank=True,null=True)
     fm=models.TextField(blank=True,null=True)
     status_submit=models.CharField(max_length=255,blank=True,null=True)

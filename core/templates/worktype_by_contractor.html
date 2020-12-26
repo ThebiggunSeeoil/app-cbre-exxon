@@ -5,10 +5,45 @@
 <h1 class="font-weight-bold" align="center">WORK TYPE {{type_job}} BY TODAY </h1>
 {% elif type == 'tomorrow' %}
 <h1 class="font-weight-bold" align="center">WORK TYPE {{type_job}} BY TOMORROW </h1>
+{% elif type == 'incomming' %}
+<h1 class="font-weight-bold" align="center">WORK COMMING BY TODAY</h1>
 {% endif %}
 
+{% if type == 'incomming' %}
 
 
+{% for detail in details %}
+                        <div class="container-fluid p-3 my-3 bg-primary text-white">
+                          <div class="header-body">
+                            <!-- Card stats -->
+                            <div class="row">
+                              <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col">
+                                        <h1 class="card-title text-uppercase text-muted mb-0">{{detail.service_provider}} </h1>
+                                        <h1 class="card-title text-uppercase text-muted mb-0">received {{detail.date_open}} Work</h1>
+                                        <h1 class="card-title text-uppercase text-muted mb-0">Submitted {{detail.submit}} Work</h1>
+                                        <h1 class="card-title text-uppercase text-muted mb-0">today pending {{detail.todaypending}} Work</h1>
+                                        <h1 class="card-title text-uppercase text-muted mb-0">Total Pending {{detail.pending}} Work</h1>
+                                      </div>
+                                      <div class="col-auto">
+                                  
+                                        <a href="{% url 'detail_checkworktype_by_contractor' detail.service_provider type %}" class="btn btn-primary btn-lg">CLICK TO DETAIL</a>
+                                        </div>
+                                      </div>    
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            </div>
+                          </div>
+                        </div>
+{% endfor %}
+
+
+{% else %}
 {% for detail in details %}
         <div class="container-fluid p-3 my-3 bg-primary text-white">
           <div class="header-body">
@@ -35,7 +70,7 @@
           </div>
         </div>
         {% endfor %}
-
+        {% endif %}
 
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">

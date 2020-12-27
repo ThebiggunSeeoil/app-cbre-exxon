@@ -106,7 +106,7 @@
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
-              <h3 class="mb-0">Work At High (WAH) Pending</h3>
+              <h3 class="mb-0">M&R TOTAL WORK PENDING</h3>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center table-responsive-sm">
@@ -118,7 +118,7 @@
                     <th scope="col">WorkType</th> {% endcomment %}
                     <th scope="col">WorkOrder</th>
                     <th scope="col">JobDescription</th>
-                    <th scope="col"></th>
+                    <th scope="col">Action Plan Date</th>
                   </tr>
                 </thead>
                 {% for work in pendings %}
@@ -163,9 +163,9 @@
                           <i class="fas fa-ellipsis-v"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                          <a class="dropdown-item" href="{% url 'add_wah' work.workorder %}">Add to WAH</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <a class="dropdown-item" href="#">Something else here</a>
+                          <a class="dropdown-item" href="{% url 'add_wah' work.workorder %}">ระบุวันที่จะเข้าทำงาน</a>
+                          <!-- <a class="dropdown-item" href="#">Another action</a>
+                          <a class="dropdown-item" href="#">Something else here</a> -->
                         </div>
                       </div>
                     </td>

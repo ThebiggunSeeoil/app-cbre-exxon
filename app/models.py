@@ -223,6 +223,7 @@ class WahSubmitforcontractor(models.Model):
     workorder=models.CharField(max_length=255)
     company=models.CharField(max_length=255)
     company_id=models.IntegerField(blank=True,null=True)
+    initials_name=models.CharField(max_length=255,blank=True,null=True)
     opended=models.CharField(max_length=255)
     status=models.CharField(max_length=255)
     startwork=models.DateTimeField(default=None,blank=True,null=True)

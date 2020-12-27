@@ -132,11 +132,13 @@ def contractorreport(request) :
     if request.user.is_authenticated:
         contractor_id = request.user.groups.values_list('id', flat=True).first() #เรียกหา GroupID
         contractor = request.user.groups.values_list('name', flat=True).first() #เรียกหา GroupID
+        contractor_initials_name = request.user.groups.values_list('initials_name', flat=True).first() #เรียกหา GroupID
         request.session['contractor_id'] = contractor_id
         request.session['contractor'] = contractor
+        request.session['contractor_initials_name'] = contractor_initials_name
         # contractor='KVM ENGINEERING CO.,LTD'
-        pendingworks=Workfromgmail.objects.filter(service_id=request.session['contractor_id']) # ดึงอีเมลล์จากฐานข้อมูล เงื่อนไข คือ อีเมลล์ตรงกัน
-        pendingcount=Workfromgmail.objects.filter(service_id=request.session['contractor_id']).count()
+        pendingworks=Workfromgmail.objects.filter(service_id=request.session['contractor_id'],status_submit__isnull=True) # ดึงอีเมลล์จากฐานข้อมูล เงื่อนไข คือ อีเมลล์ตรงกัน
+        pendingcount=Workfromgmail.objects.filter(service_id=request.session['contractor_id'],status_submit__isnull=True).count()
         # completedcount=WorkPending.objects.filter(status=status_completed,service_provider=contractor).count()
         wah_submited=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="in planing")
         wah_submitedcount=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="in planing").count()
@@ -223,7 +225,9 @@ def addWAHtoDB(request):
             save_record.wah_status=wah_status
             save_record.status=status_onsite
             save_record.company_id=request.session['contractor_id']
+            save_record.initials_name=request.session['contractor_initials_name']
             save_record.save(request)
+            udpate_pending_to_submitted=Workfromgmail.objects.filter(workorder=workorder).update(status_submit='yes')
             data_3=creatinglinemessages.submit_notify(request)
             send_notify(data_3,token)
             #return redirect(request,'contractor')
@@ -352,97 +356,31 @@ def check_type_work(request,type_check):
             worktype_detail=Workfromgmail.objects.filter(date=today).values('date').annotate(date_open=Count('date', filter=Q(date=today))).annotate(submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True)))
             print(worktype_detail)
         if type_check == 'submitted_check':
-            # เป็นการ Query ข้อมูลในตารางเดียวกันและให้ระบบ sum ข้อมูลที่เหมือนกันในแต่ละเงื่อนไขได้เลย
-            # worktype_detail=Workfromgmail.objects.filter(completed_work__isnull=True).values('service_provider').annotate(date_open=Count('date', filter=Q(date=today))).annotate(submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True))).annotate(notify=Count('notify_contractor')).annotate(pending=Count('date', filter= ~Q(status_submit='yes')))
-            final = []
-            final_2 = []
-            planned = Workfromgmail.objects.filter(date=today).values('initials_name').annotate(date_open=Count('date', filter=Q(date=today))).annotate(submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True)))
-            planned_2 = Group.objects.values_list('initials_name')
-            print ('planned is',planned)
+            data_1 = []
+            data_2 = Workfromgmail.objects.filter(date=today).values('initials_name').annotate(new_work_today=Count('date', filter=Q(date=today))).annotate(today_submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True)))
+            data_3 = WahSubmitforcontractor.objects.filter(planned_date=today).values('initials_name').annotate(planned_today=Count('planned_date',))
+            print ('data 3 is',data_3)
             for name in Group.objects.values_list('initials_name'):
                data = {'name':(name[0])}
-            #    print (name)
-               final.append(data)
-            # print (final)
-
-            index = 0
-            while index <len(final):
-                print (final[index]['name'])
-                if final[index]['name'] in planned['initials_name']  :
-                    print ('find')
-                else :
-                    print ('not find')
-                index = index +1
-
-            # for site in final :
-            #     A = site['name']
-            #     # print (A)
-            #     for B  in planned :
-            #         print ('B is',B)
-            #         if A == B['initials_name']:
-            #             # print (B['initials_name'])
-            #             data = {'name':site['name'],'date_open':B['date_open'],'submit':B['submit'],'todaypending':B['todaypending']}
-            #             # print (data)
-            #             final_2.append(data)
-                    # elif A != B:
-                    #     print ('OO')
-                    #     data = {'name':site['name'],'date_open':'0','submit':'0','todaypending':'0'}
-                    #     final_2.append(data)
-                
-
-                # for B  in planned :
-                #     # print ('B is',B)
-                #     if A != B['initials_name']:
-                #         # print (B['initials_name'])
-                #         data = {'name':site['name'],'date_open':'0','submit':'0','todaypending':'0'}
-                #         # print (data)
-                #         final_2.append(data)
-                #         break
-
-
-                    # if A != B :
-                    #     data = {'name':site['name'],'date_open':'0','submit':'0','todaypending':'0'}
-                    #     # print (data)
-                    #     final_2.append(data)
-                    #     break
-
-            # for AA in final :
-            #     print (AA)
-            #     if AA['']
-                
-
-                
-            print (final_2)
-
-            # print (final)
-            # print (planned)
-            # group = Workfromgmail.objects.filter(Group__initials_name='SNE').count()
-        
-
-            # group = Group.objects.filter(Workfromgmail__initials_name='SNE').count()
-            # new=Workfromgmail.objects.filter(date=today).values('service_provider')
-            # worktype_planned=WahSubmitforcontractor.objects.filter(planned_date=today).values()
-            # worktype_detail=Workfromgmail.objects.filter(completed_work__isnull=True).values()
-            # for I in group :
-            #     print (I[0])
-            #     for data in worktype_planned :
-            #         print (data['company_id'])
-            #         if I[0] == data['company_id']:
-            #             print (data['planned_date'])
-            #         else :
-            #             print ('not found')
-
-            # for I in worktype_planned :
-            #     print ('I is' , I['planned_date'])
-
-                # for I in worktype_detail :
-                #     if I == worktype_detail['service_id']:
-                #         print (I)
-
-            # print(worktype_detail)
-            # print (group)
-            # print(new)
-            return HttpResponse (200)
+               data_1.append(data)
+            for guest_new in data_2 :
+                for i in range (0, len(data_2)):
+                    if(data_1[i]['name'] == guest_new['initials_name']):
+                        data_1[i]['new_work_today'] = guest_new['new_work_today']
+                        data_1[i]['today_submit'] = guest_new['today_submit']
+                        data_1[i]['todaypending'] = guest_new['todaypending']
+                    else:
+                        print ('not find')
+            for guest_new in data_3 :
+                for i in range (0, len(data_2)):
+                    if(data_1[i]['name'] == guest_new['initials_name']):
+                        data_1[i]['planned_today'] = guest_new['planned_today']
+                        
+                    else:
+                        print ('not find')
+            print (data_1)
+            return render (request,'showsubmitcheck.html',{'final':data_1})
+           
     else:
         print(id) #Pass for contractor
     return render (request,'showcheckworkbytype.html',{'worktype_detail':worktype_detail,'type':type_check})

@@ -40,6 +40,7 @@ def callback(request):
             for I in group :
                 if vender[0:5] in I.name :
                     service_id=I.id
+                    initials_name=I.initials_name
             workorder=payload['events'][0]['workorder']
             sitename=payload['events'][0]['sitename']
             opendate=payload['events'][0]['opendate']
@@ -53,6 +54,7 @@ def callback(request):
             save_record.caller=sitename
             save_record.service_provider=vender
             save_record.service_id=service_id
+            save_record.initials_name=initials_name
             save_record.problum=description
             save_record.time_create=today_time_email
             save_record.date=today_date_email

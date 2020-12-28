@@ -474,7 +474,8 @@ def updatecheckindatabase(request,id,workorder):
     data_2=creatinglinemessages.linedetailcheck(work_detail_to_line,type_1)
     data_3=creatinglinemessages.checkin_notify(work_detail_to_line)
     for I in work_detail_to_line :
-        request.session['fm_name'] = I.fm
+        fm_name = I.fm
+        request.session['fm_name'] = fm_name
     return render(request,'completedcheckin.html',{"data":json.dumps(data_1)})
 
 def updatecheckoutdatabase(request,id,workorder):

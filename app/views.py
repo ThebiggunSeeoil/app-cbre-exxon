@@ -458,13 +458,14 @@ def liffpage_checkout_confirme(request,id):
     return render (request,'liffpage_checkout_confirme.html',{"work_detail":work_detail })
     
 
-def updatecheckindatabase(request,id):
+def updatecheckindatabase(request,id,workorder):
     print('Work ID is ',id)
     type='onsite'
     type_1='admin'
     type_2='fm'
     fls_startwork=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('name')[0][0]
     updatedatawah=WahSubmitforcontractor.objects.filter(id=id).update(startwork=datetime.datetime.now(),status='onsite',fls_startwork=fls_startwork)
+    udpate_pending_to_status_work=Workfromgmail.objects.filter(workorder=workorder).update(completed_work='onsite')
     work_detail_to_line=WahSubmitforcontractor.objects.filter(id=id)
     global data_2
     global data_3
@@ -476,13 +477,14 @@ def updatecheckindatabase(request,id):
         request.session['fm_name'] = I.fm
     return render(request,'completedcheckin.html',{"data":json.dumps(data_1)})
 
-def updatecheckoutdatabase(request,id):
+def updatecheckoutdatabase(request,id,workorder):
     print('Work ID is ',id)
     type='completed'
     type_1='admin'
     type_1='admin2'
     fls_startwork=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('name')[0][0]
     updatedatawah=WahSubmitforcontractor.objects.filter(id=id).update(completedwork=datetime.datetime.now(),status='completed',fls_completedwork=fls_startwork)
+    udpate_pending_to_status_work=Workfromgmail.objects.filter(workorder=workorder).update(completed_work='completed')
     work_detail_to_line=WahSubmitforcontractor.objects.filter(id=id)
     global data_2
     global data_3

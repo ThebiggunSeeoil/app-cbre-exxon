@@ -37,8 +37,9 @@ urlpatterns = [
     path('liffpage_checkin_confirme<int:id>/',views.liffpage_checkin_confirme,name='liffpage_checkin_confirme'),
     path('liffpage_checkout_confirme<int:id>/',views.liffpage_checkout_confirme,name='liffpage_checkout_confirme'),
     
-    path('updatecheckindatabase<int:id>/',views.updatecheckindatabase,name="updatecheckindatabase"),
-    path('updatecheckoutdatabase<int:id>/',views.updatecheckoutdatabase,name="updatecheckoutdatabase"),
+    path('updatecheckindatabase<int:id>+<int:workorder>/',views.updatecheckindatabase,name="updatecheckindatabase"),
+    
+    path('updatecheckoutdatabase<int:id>+<int:workorder>/',views.updatecheckoutdatabase,name="updatecheckoutdatabase"),
     path('sendlinetocbreteam/',views.sendlinetocbreteam,name='sendlinetocbreteam'),
     path('checkoutwork/',views.checkoutwork,name='checkoutwork'),
 

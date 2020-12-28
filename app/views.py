@@ -476,6 +476,16 @@ def updatecheckindatabase(request,id,workorder):
     for I in work_detail_to_line :
         fm_name = I.fm
         request.session['fm_name'] = fm_name
+    admin_data=PersanalDetaillogin.objects.filter(user_type='admin')
+    token=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('group_id')[0][0]
+    for I in admin_data :
+        data_admin=I.line_id
+        send_line_to_cbre=PushMessage(data_2,data_admin)
+        # print (send_line_to_cbre)
+    
+    fm_data=PersanalDetaillogin.objects.filter(name=request.session['fm_name']).values_list('line_id')[0][0]
+    # print (fm_data)
+    send_line_to_fm=PushMessage(data_2,fm_data)
     return render(request,'completedcheckin.html',{"data":json.dumps(data_1)})
 
 def updatecheckoutdatabase(request,id,workorder):
@@ -493,6 +503,16 @@ def updatecheckoutdatabase(request,id,workorder):
     data_1=creatinglinemessages.linedetailcheck(work_detail_to_line,type)
     data_2=creatinglinemessages.linedetailcheck(work_detail_to_line,type_1)
     data_3=creatinglinemessages.checkout_notify(work_detail_to_line)
+    admin_data=PersanalDetaillogin.objects.filter(user_type='admin')
+    token=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('group_id')[0][0]
+    for I in admin_data :
+        data_admin=I.line_id
+        send_line_to_cbre=PushMessage(data_2,data_admin)
+        # print (send_line_to_cbre)
+    
+    fm_data=PersanalDetaillogin.objects.filter(name=request.session['fm_name']).values_list('line_id')[0][0]
+    # print (fm_data)
+    send_line_to_fm=PushMessage(data_2,fm_data)
     return render(request,'completedcheckout.html',{"data":json.dumps(data_1)})
 
 def sendlinetocbreteam(request):

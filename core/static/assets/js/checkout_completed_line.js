@@ -81,7 +81,7 @@ function send_messages (data) {
     } else {
         liff.sendMessages([dataofjson]).then(function() {
             window.alert('ระบบจัดส่งรายงานเรียบร้อย');
-            window.location.href = '/sendlinetocbreteam/'
+            // window.location.href = '/sendlinetocbreteam/'
             closewindows()
 
            

@@ -1,5 +1,221 @@
-
+import datetime
 class creatinglinemessages ():
+    def summary_by_contractor(data,date_today,planned_date):
+        Main_data = {"type": "flex",
+                            "altText": "Flex Message",
+                            "contents":
+                                {
+                                    "type": "carousel",
+                                    "contents":[{
+                            "type": "bubble",
+                            "size": "giga",
+                            "hero": {
+                                "type": "image",
+                                "url": "https://seeoil-web.com/cbre/Picture/CBRE-Logo.jpg",
+                                "align": "center",
+                                "gravity": "bottom",
+                                "size": "full",
+                                "aspectRatio": "20:7",
+                                "aspectMode": "cover",
+                                "action": {
+                                "type": "uri",
+                                "label": "Line",
+                                "uri": "https://linecorp.com/"
+                                },
+                                "position": "relative"
+                            },
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Summary Report All Contractor",
+                                    "weight": "bold",
+                                    "size": "sm",
+                                    "color": "#225508FF",
+                                    "align": "center",
+                                    "contents": []
+                                },
+                                {
+                                    "type": "text",
+                                    "text": str(date_today),
+                                    "weight": "bold",
+                                    "size": "sm",
+                                    "color": "#225508FF",
+                                    "align": "center",
+                                    "contents": []
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "Planned on " + planned_date,
+                                    "weight": "bold",
+                                    "size": "sm",
+                                    "color": "#225508FF",
+                                    "align": "center",
+                                    "contents": []
+                                },
+                                {
+                                    "type": "separator",
+                                    "margin": "sm",
+                                    "color": "#165C3CFF"
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "margin": "xs",
+                                    "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "SP",
+                                        "weight": "bold",
+                                        "size": "xs",
+                                        "contents": []
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "WR",
+                                        "weight": "bold",
+                                        "size": "xs",
+                                        "align": "center",
+                                        "position": "relative",
+                                        "contents": []
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "SB",
+                                        "weight": "bold",
+                                        "size": "xs",
+                                        "align": "center",
+                                        "contents": []
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "PA",
+                                        "weight": "bold",
+                                        "size": "xs",
+                                        "align": "center",
+                                        "contents": []
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "TD-PD",
+                                        "weight": "bold",
+                                        "size": "xs",
+                                        "align": "center",
+                                        "contents": []
+                                    }
+                                    ]
+                                },
+                                
+                                
+                                {
+                                    "type": "separator",
+                                    "margin": "md",
+                                    "color": "#165C3CFF"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "SP : Providor Name , WR : Work received today",
+                                    "size": "xxs",
+                                    "align": "center",
+                                    "margin": "sm",
+                                    "contents": []
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "SB : Submitted Work , PA : Work All Pending",
+                                    "size": "xxs",
+                                    "align": "center",
+                                    "margin": "xs",
+                                    "contents": []
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "TD-PD : Work Planned on 28-12-2020",
+                                    "size": "xxs",
+                                    "align": "center",
+                                    "margin": "xs",
+                                    "contents": []
+                                }
+                                ]
+                            }
+                            }
+
+                                        ]
+
+                                }}
+
+        for I in data :
+            name = I['name']
+            if 'new_work_today' not in I :
+                new_work_today = '0'
+            else :
+                new_work_today = I['new_work_today']
+            if 'today_submit' not in I :
+                today_submit = '0'
+            else :
+                today_submit = I['today_submit']
+            if 'todaypending' not in I :
+                todaypending = '0'
+            else :
+                todaypending = I['todaypending']
+            if 'planned_today' not in I :
+                planned_today = '0'
+            else :
+                planned_today = I['planned_today']
+
+            # print (name)
+            # print (new_work_today)
+            # print (today_submit)
+            # print (todaypending)
+            # print (planned_today)
+            
+            content_data = {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": name,
+                                            "size": "xs",
+                                            "align": "start",
+                                            "contents": []
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": str(new_work_today),
+                                            "size": "xs",
+                                            "align": "center",
+                                            "position": "relative",
+                                            "contents": []
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": str(today_submit),
+                                            "size": "xs",
+                                            "align": "center",
+                                            "contents": []
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": str(todaypending),
+                                            "size": "xs",
+                                            "align": "center",
+                                            "contents": []
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": str(planned_today),
+                                            "size": "xs",
+                                            "align": "center",
+                                            "contents": []
+                                        }
+                                        ]
+                                    }
+            Main_data['contents']['contents'][0]['body']['contents'].insert(-4,content_data)
+        return Main_data   
     def submit_notify(request):
         
         planned_date=request.POST.get('planned_date')

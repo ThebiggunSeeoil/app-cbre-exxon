@@ -357,12 +357,17 @@ def check_type_work(request,type_check):
             print(worktype_detail)
         if type_check == 'submitted_check':
             data_1 = []
-            data_2 = Workfromgmail.objects.filter(date=today).values('initials_name').annotate(new_work_today=Count('date', filter=Q(date=today))).annotate(today_submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True)))
-            data_3 = WahSubmitforcontractor.objects.filter(planned_date=today).values('initials_name').annotate(planned_today=Count('planned_date',))
-            print ('data 3 is',data_3)
+            data_2 = Workfromgmail.objects.filter(completed_work__isnull=True).values('initials_name').annotate(new_work_today=Count('date', filter=Q(date=today))).annotate(today_submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=False)))
+            data_3 = WahSubmitforcontractor.objects.filter(planned_date=tomorrow).values('initials_name').annotate(planned_today=Count('planned_date',))
+            today_date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
+            tomorrow_date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%d-%m-%Y")
+            print ('today is',today_date)
             for name in Group.objects.values_list('initials_name'):
                data = {'name':(name[0])}
-               data_1.append(data)
+               if data['name'] == 'CBRE':
+                   print ('Cancel CBRE')
+               else :
+                   data_1.append(data)
             for guest_new in data_2 :
                 for i in range (0, len(data_2)):
                     if(data_1[i]['name'] == guest_new['initials_name']):
@@ -375,11 +380,12 @@ def check_type_work(request,type_check):
                 for i in range (0, len(data_2)):
                     if(data_1[i]['name'] == guest_new['initials_name']):
                         data_1[i]['planned_today'] = guest_new['planned_today']
-                        
                     else:
                         print ('not find')
-            print (data_1)
-            return render (request,'showsubmitcheck.html',{'final':data_1})
+            # print (data_1)
+            data_line=creatinglinemessages.summary_by_contractor(data_1,today_date,tomorrow_date)
+            print (json.dumps(data_line))
+            return render (request,'showsubmitcheck.html',{"data":json.dumps(data_line),'today_date':today_date,'final':data_1})
            
     else:
         print(id) #Pass for contractor

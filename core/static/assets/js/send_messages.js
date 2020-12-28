@@ -74,7 +74,7 @@ function initializeApp() {
 
 
 function send_messages (data) {
-    // alert (data)
+    alert (data)
     let dataofjson = JSON.parse(data);
     if (!liff.isInClient()) {
         sendAlertIfNotInClient();

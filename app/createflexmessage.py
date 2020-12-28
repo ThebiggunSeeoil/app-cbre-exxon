@@ -259,7 +259,7 @@ class creatinglinemessages ():
     def checkout_notify(data):
         for I in data :
                 # Title = (I['Title'])
-                print (I)
+                # print (I)
                 workorder = I.workorder
                 company= I.company
                 opended = I.opended
@@ -284,39 +284,39 @@ class creatinglinemessages ():
                 fm = I.fm
                 startwork=I.startwork
 
-                print (workorder)
-                print (company)
-                print (opended)
-                print (status)
-                print (startwork)
-                print (completedwork)
-                print (caller)
-                print (wah_status)
-                print (timestramp)
-                print (planned_date)
-                print (job_description)
-                print (fls_mame)
-                print (fls_phone)
-                print (management)
-                print (remark)
-                print (type_job)
-                print (jla_ra)
-                print (any_ssw)
-                print (physical)
-                print (fm)
+                # print (workorder)
+                # print (company)
+                # print (opended)
+                # print (status)
+                # print (startwork)
+                # print (completedwork)
+                # print (caller)
+                # print (wah_status)
+                # print (timestramp)
+                # print (planned_date)
+                # print (job_description)
+                # print (fls_mame)
+                # print (fls_phone)
+                # print (management)
+                # print (remark)
+                # print (type_job)
+                # print (jla_ra)
+                # print (any_ssw)
+                # print (physical)
+                # print (fm)
         data = {'\n'+'CHECKOUT WAH TYPE'+'\n'
                         +'Contractor : ' + company + '\n' 
                         + 'SiteName : ' + caller + '\n'
                         + 'WorkOrder '+ workorder + '\n'
                         + 'CheckIn Name : ' + fls_startwork + '\n'
                         + 'CheckOut Name : ' + fls_completedwork + '\n'
-                        + 'CheckIn Time : ' + str(startwork.strftime("%d-%m-%Y %H:%M")) + '\n'
-                        + 'CheckOut Time : ' + str(completedwork.strftime("%d-%m-%Y %H:%M"))}
+                        + 'CheckIn Time : ' + str(startwork) + '\n'
+                        + 'CheckOut Time : ' + str(completedwork)}
         return data
     def checkin_notify(data):
         for I in data :
                 # Title = (I['Title'])
-                print (I)
+                # print (I)
                 workorder = I.workorder
                 company= I.company
                 opended = I.opended
@@ -340,32 +340,32 @@ class creatinglinemessages ():
                 fm = I.fm
                 startwork=I.startwork
 
-                print (workorder)
-                print (company)
-                print (opended)
-                print (status)
-                print (startwork)
-                print (completedwork)
-                print (caller)
-                print (wah_status)
-                print (timestramp)
-                print (planned_date)
-                print (job_description)
-                print (fls_mame)
-                print (fls_phone)
-                print (management)
-                print (remark)
-                print (type_job)
-                print (jla_ra)
-                print (any_ssw)
-                print (physical)
-                print (fm)
+                # print (workorder)
+                # print (company)
+                # print (opended)
+                # print (status)
+                # print (startwork)
+                # print (completedwork)
+                # print (caller)
+                # print (wah_status)
+                # print (timestramp)
+                # print (planned_date)
+                # print (job_description)
+                # print (fls_mame)
+                # print (fls_phone)
+                # print (management)
+                # print (remark)
+                # print (type_job)
+                # print (jla_ra)
+                # print (any_ssw)
+                # print (physical)
+                # print (fm)
         data = {'\n'+'CHECKIN WAH TYPE'+'\n'
                         +'Contractor : ' + company + '\n' 
                         + 'SiteName : ' + caller + '\n'
                         + 'WorkOrder '+ workorder + '\n'
                         + 'CheckIn Name : ' + fls_startwork + '\n'
-                        + 'CheckIn Time : ' + str(startwork.strftime("%d-%m-%Y %H:%M"))}
+                        + 'CheckIn Time : ' + str(startwork)}
         return data
     def wahsubmit (count_wah_submit_detail,type):
         print ('insile createline')
@@ -1349,17 +1349,17 @@ class creatinglinemessages ():
             
             for I in detail_checkin :
                 # Title = (I['Title'])
-                print (I)
+                # print (I)
                 workorder = I.workorder
                 company= I.company
                 opended = I.opended
                 status = I.status
                 startwork = I.startwork
-                completedwork = I.completedwork.strftime("%d-%m-%Y %H:%M")
+                completedwork = I.completedwork
                 caller = I.caller
                 wah_status = I.wah_status
                 timestramp = I.timestramp
-                planned_date = I.planned_date.strftime("%d-%m-%Y %H:%M")
+                planned_date = I.planned_date
                 job_description = I.job_description
                 fls_mame = I.fls_mame_1
                 fls_startwork = I.fls_startwork
@@ -1371,28 +1371,28 @@ class creatinglinemessages ():
                 any_ssw = I.any_ssw
                 physical = I.physical
                 fm = I.fm
-                startwork=I.startwork.strftime("%d-%m-%Y %H:%M")
+                startwork=I.startwork
 
-                print (workorder)
-                print (company)
-                print (opended)
-                print (status)
-                print (startwork)
-                print (completedwork)
-                print (caller)
-                print (wah_status)
-                print (timestramp)
-                print (planned_date)
-                print (job_description)
-                print (fls_mame)
-                print (fls_phone)
-                print (management)
-                print (remark)
-                print (type_job)
-                print (jla_ra)
-                print (any_ssw)
-                print (physical)
-                print (fm)
+                # print (workorder)
+                # print (company)
+                # print (opended)
+                # print (status)
+                # print (startwork)
+                # print (completedwork)
+                # print (caller)
+                # print (wah_status)
+                # print (timestramp)
+                # print (planned_date)
+                # print (job_description)
+                # print (fls_mame)
+                # print (fls_phone)
+                # print (management)
+                # print (remark)
+                # print (type_job)
+                # print (jla_ra)
+                # print (any_ssw)
+                # print (physical)
+                # print (fm)
             
                 data = {
                                                     "type": "flex",
@@ -1656,17 +1656,17 @@ class creatinglinemessages ():
             
             for I in detail_checkin :
                 # Title = (I['Title'])
-                print (I)
+                # print (I)
                 workorder = I.workorder
                 company= I.company
                 opended = I.opended
                 status = I.status
-                startwork = I.startwork.strftime("%d-%m-%Y %H:%M")
+                startwork = I.startwork
                 completedwork = I.completedwork
                 caller = I.caller
                 wah_status = I.wah_status
                 timestramp = I.timestramp
-                planned_date = I.planned_date.strftime("%d-%m-%Y %H:%M")
+                planned_date = I.planned_date
                 job_description = I.job_description
                 fls_mame = I.fls_mame_1
                 fls_startwork = I.fls_startwork
@@ -1678,28 +1678,28 @@ class creatinglinemessages ():
                 any_ssw = I.any_ssw
                 physical = I.physical
                 fm = I.fm
-                startwork=I.startwork.strftime("%d-%m-%Y %H:%M")
+                startwork=I.startwork
 
-                print (workorder)
-                print (company)
-                print (opended)
-                print (status)
-                print (startwork)
-                print (completedwork)
-                print (caller)
-                print (wah_status)
-                print (timestramp)
-                print (planned_date)
-                print (job_description)
-                print (fls_mame)
-                print (fls_phone)
-                print (management)
-                print (remark)
-                print (type_job)
-                print (jla_ra)
-                print (any_ssw)
-                print (physical)
-                print (fm)
+                # print (workorder)
+                # print (company)
+                # print (opended)
+                # print (status)
+                # print (startwork)
+                # print (completedwork)
+                # print (caller)
+                # print (wah_status)
+                # print (timestramp)
+                # print (planned_date)
+                # print (job_description)
+                # print (fls_mame)
+                # print (fls_phone)
+                # print (management)
+                # print (remark)
+                # print (type_job)
+                # print (jla_ra)
+                # print (any_ssw)
+                # print (physical)
+                # print (fm)
             
                 data = {
                                                     "type": "flex",
@@ -1962,17 +1962,17 @@ class creatinglinemessages ():
         if type == 'admin2' :
             for I in detail_checkin :
                 # Title = (I['Title'])
-                print (I)
+                # print (I)
                 workorder = I.workorder
                 company= I.company
                 opended = I.opended
                 status = I.status
                 startwork = I.startwork
-                completedwork = I.completedwork.strftime("%d-%m-%Y %H:%M")
+                completedwork = I.completedwork
                 caller = I.caller
                 wah_status = I.wah_status
                 timestramp = I.timestramp
-                planned_date = I.planned_date.strftime("%d-%m-%Y %H:%M")
+                planned_date = I.planned_date
                 job_description = I.job_description
                 fls_mame = I.fls_mame_1
                 fls_startwork = I.fls_startwork
@@ -1985,28 +1985,28 @@ class creatinglinemessages ():
                 any_ssw = I.any_ssw
                 physical = I.physical
                 fm = I.fm
-                startwork=I.startwork.strftime("%d-%m-%Y %H:%M")
+                startwork=I.startwork
 
-                print (workorder)
-                print (company)
-                print (opended)
-                print (status)
-                print (startwork)
-                print (completedwork)
-                print (caller)
-                print (wah_status)
-                print (timestramp)
-                print (planned_date)
-                print (job_description)
-                print (fls_mame)
-                print (fls_phone)
-                print (management)
-                print (remark)
-                print (type_job)
-                print (jla_ra)
-                print (any_ssw)
-                print (physical)
-                print (fm)
+                # print (workorder)
+                # print (company)
+                # print (opended)
+                # print (status)
+                # print (startwork)
+                # print (completedwork)
+                # print (caller)
+                # print (wah_status)
+                # print (timestramp)
+                # print (planned_date)
+                # print (job_description)
+                # print (fls_mame)
+                # print (fls_phone)
+                # print (management)
+                # print (remark)
+                # print (type_job)
+                # print (jla_ra)
+                # print (any_ssw)
+                # print (physical)
+                # print (fm)
             
                 data = {
                                                     "type": "flex",
@@ -2513,17 +2513,17 @@ class creatinglinemessages ():
         if type == 'admin' :
             for I in detail_checkin :
                 # Title = (I['Title'])
-                print (I)
+                # print (I)
                 workorder = I.workorder
                 company= I.company
                 opended = I.opended
                 status = I.status
-                startwork = I.startwork.strftime("%d-%m-%Y %H:%M")
+                startwork = I.startwork
                 completedwork = I.completedwork
                 caller = I.caller
                 wah_status = I.wah_status
                 timestramp = I.timestramp
-                planned_date = I.planned_date.strftime("%d-%m-%Y %H:%M")
+                planned_date = I.planned_date
                 job_description = I.job_description
                 fls_mame = I.fls_mame_1
                 fls_startwork = I.fls_startwork
@@ -2535,28 +2535,28 @@ class creatinglinemessages ():
                 any_ssw = I.any_ssw
                 physical = I.physical
                 fm = I.fm
-                startwork=I.startwork.strftime("%d-%m-%Y %H:%M")
+                startwork=I.startwork
 
-                print (workorder)
-                print (company)
-                print (opended)
-                print (status)
-                print (startwork)
-                print (completedwork)
-                print (caller)
-                print (wah_status)
-                print (timestramp)
-                print (planned_date)
-                print (job_description)
-                print (fls_mame)
-                print (fls_phone)
-                print (management)
-                print (remark)
-                print (type_job)
-                print (jla_ra)
-                print (any_ssw)
-                print (physical)
-                print (fm)
+                # print (workorder)
+                # print (company)
+                # print (opended)
+                # print (status)
+                # print (startwork)
+                # print (completedwork)
+                # print (caller)
+                # print (wah_status)
+                # print (timestramp)
+                # print (planned_date)
+                # print (job_description)
+                # print (fls_mame)
+                # print (fls_phone)
+                # print (management)
+                # print (remark)
+                # print (type_job)
+                # print (jla_ra)
+                # print (any_ssw)
+                # print (physical)
+                # print (fm)
             
                 data = {
                                                     "type": "flex",

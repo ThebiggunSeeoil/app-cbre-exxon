@@ -429,7 +429,7 @@ def checkoutwork (request):
     return render (request,'liffpage_checkout_login.html')
 
 def worklistforcheckin(request):
-    fls_line_id=PersanalDetaillogin.objects.filter(line_id=user_id).values_list('id')[0][0]
+    fls_line_id=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('id')[0][0]
     work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id) ,startwork__isnull=True)
     #work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id) )
     if work_detail.exists():

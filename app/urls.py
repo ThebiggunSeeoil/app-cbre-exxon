@@ -33,8 +33,10 @@ urlpatterns = [
     path('checkinwork/',views.checkinwork,name='checkinwork'),
     path('worklistforcheckin/',views.worklistforcheckin,name='worklistforcheckin'),
     path('worklistforcheckout/',views.worklistforcheckout,name='worklistforcheckout'),
+    
     path('liffpage_checkin_confirme<int:id>/',views.liffpage_checkin_confirme,name='liffpage_checkin_confirme'),
     path('liffpage_checkout_confirme<int:id>/',views.liffpage_checkout_confirme,name='liffpage_checkout_confirme'),
+    
     path('updatecheckindatabase<int:id>/',views.updatecheckindatabase,name="updatecheckindatabase"),
     path('updatecheckoutdatabase<int:id>/',views.updatecheckoutdatabase,name="updatecheckoutdatabase"),
     path('sendlinetocbreteam/',views.sendlinetocbreteam,name='sendlinetocbreteam'),

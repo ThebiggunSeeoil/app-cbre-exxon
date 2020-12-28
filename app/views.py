@@ -354,39 +354,36 @@ def check_type_work(request,type_check):
             # เป็นการ Query ข้อมูลในตารางเดียวกันและให้ระบบ sum ข้อมูลที่เหมือนกันในแต่ละเงื่อนไขได้เลย
             # worktype_detail=Workfromgmail.objects.filter(completed_work__isnull=True).values('service_provider').annotate(date_open=Count('date', filter=Q(date=today))).annotate(submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True))).annotate(notify=Count('notify_contractor')).annotate(pending=Count('date', filter= ~Q(status_submit='yes')))
             worktype_detail=Workfromgmail.objects.filter(date=today).values('date').annotate(date_open=Count('date', filter=Q(date=today))).annotate(submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True)))
-            print(worktype_detail)
+            # print(worktype_detail)
         if type_check == 'submitted_check':
             data_1 = []
-            data_2 = Workfromgmail.objects.filter(completed_work__isnull=True).values('initials_name').annotate(new_work_today=Count('date', filter=Q(date=today))).annotate(today_submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=False)))
-            data_3 = WahSubmitforcontractor.objects.filter(planned_date=tomorrow).values('initials_name').annotate(planned_today=Count('planned_date',))
+            data_2 = Workfromgmail.objects.filter(completed_work__isnull=True).values('initials_name').annotate(new_work_today=Count('date', filter=Q(date=today))).annotate(today_submit=Count('status_submit',filter=Q(status_submit='yes'))).annotate(todaypending=Count('date', filter=Q(status_submit__isnull=True)))
+            data_3 = WahSubmitforcontractor.objects.filter(planned_date=tomorrow,status='in planning').values('initials_name').annotate(planned_today=Count('planned_date',))
             today_date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
             tomorrow_date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%d-%m-%Y")
-            print ('today is',today_date)
+            # print ('data 2 is',data_2)
+            # print ('data 3 is',data_3)
+            # print ('today is',today_date)
             for name in Group.objects.values_list('initials_name'):
                data = {'name':(name[0])}
                if data['name'] == 'CBRE':
                    print ('Cancel CBRE')
                else :
                    data_1.append(data)
-            for guest_new in data_2 :
-                for i in range (0, len(data_2)):
-                    if(data_1[i]['name'] == guest_new['initials_name']):
-                        data_1[i]['new_work_today'] = guest_new['new_work_today']
-                        data_1[i]['today_submit'] = guest_new['today_submit']
-                        data_1[i]['todaypending'] = guest_new['todaypending']
-                    else:
-                        print ('not find')
+            for guest_new in data_2:
+                for name in data_1:
+                    if (name['name'] == guest_new['initials_name']):
+                        name['new_work_today'] = guest_new['new_work_today']
+                        name['today_submit'] = guest_new['today_submit']
+                        name['todaypending'] = guest_new['todaypending']
             for guest_new in data_3 :
-                for i in range (0, len(data_2)):
-                    if(data_1[i]['name'] == guest_new['initials_name']):
-                        data_1[i]['planned_today'] = guest_new['planned_today']
-                    else:
-                        print ('not find')
-            # print (data_1)
+                for name in data_1:
+                    if(name['name'] == guest_new['initials_name']):
+                        name['planned_today'] = guest_new['planned_today']
+            print (data_1)
             data_line=creatinglinemessages.summary_by_contractor(data_1,today_date,tomorrow_date)
-            print (json.dumps(data_line))
-            return render (request,'showsubmitcheck.html',{"data":json.dumps(data_line),'today_date':today_date,'final':data_1})
-           
+            # print (json.dumps(data_line))
+            return render (request,'showsubmitcheck.html',{"data":json.dumps(data_line),'today_date':today_date,'final':data_1}) 
     else:
         print(id) #Pass for contractor
     return render (request,'showcheckworkbytype.html',{'worktype_detail':worktype_detail,'type':type_check})
@@ -476,9 +473,7 @@ def updatecheckindatabase(request,id):
     data_2=creatinglinemessages.linedetailcheck(work_detail_to_line,type_1)
     data_3=creatinglinemessages.checkin_notify(work_detail_to_line)
     for I in work_detail_to_line :
-        global fm_name
-        fm_name = I.fm
-        
+        request.session['fm_name'] = I.fm
     return render(request,'completedcheckin.html',{"data":json.dumps(data_1)})
 
 def updatecheckoutdatabase(request,id):
@@ -504,8 +499,8 @@ def sendlinetocbreteam(request):
         send_line_to_cbre=PushMessage(data_2,data_admin)
         # print (send_line_to_cbre)
     
-    fm_data=PersanalDetaillogin.objects.filter(name=fm_name).values_list('line_id')[0][0]
-    print (fm_data)
+    fm_data=PersanalDetaillogin.objects.filter(name=request.session['fm_name']).values_list('line_id')[0][0]
+    # print (fm_data)
     send_line_to_fm=PushMessage(data_2,fm_data)
         
     

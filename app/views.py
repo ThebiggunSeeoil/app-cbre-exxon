@@ -486,6 +486,7 @@ def updatecheckindatabase(request,id,workorder):
     fm_data=PersanalDetaillogin.objects.filter(name=request.session['fm_name']).values_list('line_id')[0][0]
     # print (fm_data)
     send_line_to_fm=PushMessage(data_2,fm_data)
+    send_notify(data_3,token)
     return render(request,'completedcheckin.html',{"data":json.dumps(data_1)})
 
 def updatecheckoutdatabase(request,id,workorder):
@@ -513,6 +514,7 @@ def updatecheckoutdatabase(request,id,workorder):
     fm_data=PersanalDetaillogin.objects.filter(name=request.session['fm_name']).values_list('line_id')[0][0]
     # print (fm_data)
     send_line_to_fm=PushMessage(data_2,fm_data)
+    send_notify(data_3,token)
     return render(request,'completedcheckout.html',{"data":json.dumps(data_1)})
 
 def sendlinetocbreteam(request):

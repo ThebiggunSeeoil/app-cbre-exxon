@@ -144,7 +144,7 @@ def contractorreport(request) :
         wah_submitedcount=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="in planing").count()
         wah_onsite=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="onsite").count()
         wah_completed=WahSubmitforcontractor.objects.filter(company_id=request.session['contractor_id'],status="completed").count()
-        print ('CompletedWork',wah_completed)
+        # print ('CompletedWork',wah_completed)
         
         #print (current_user.id)
         paginator=Paginator(pendingworks,5) #ตั้งค่าให้แสดง 4 รายการต่อหน้า

@@ -438,7 +438,7 @@ def worklistforcheckin(request):
         return render (request,'liffpage_checkin_detail.html',{"work_detail":work_detail ,"type":'NOK'})
 
 def worklistforcheckout(request):
-    fls_line_id=PersanalDetaillogin.objects.filter(line_id=user_id).values_list('id')[0][0]
+    fls_line_id=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('id')[0][0]
     work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id) ,status='onsite')
     
     #work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id) )
@@ -449,13 +449,13 @@ def worklistforcheckout(request):
 
 def liffpage_checkin_confirme(request,id):
     type='onsite'
-    fls_line_id=PersanalDetaillogin.objects.filter(line_id=user_id).values_list('id')[0][0]
+    fls_line_id=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('id')[0][0]
     work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id),startwork__isnull=True,id=id)
     #work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id))
     return render (request,'liffpage_checkin_confirme.html',{"work_detail":work_detail })
 
 def liffpage_checkout_confirme(request,id):
-    fls_line_id=PersanalDetaillogin.objects.filter(line_id=user_id).values_list('id')[0][0]
+    fls_line_id=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('id')[0][0]
     work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id),completedwork__isnull=True,id=id)
     #work_detail=WahSubmitforcontractor.objects.filter(Q(fls_id_1=fls_line_id) | Q(fls_id_2=fls_line_id))
     return render (request,'liffpage_checkout_confirme.html',{"work_detail":work_detail })
@@ -466,7 +466,7 @@ def updatecheckindatabase(request,id):
     type='onsite'
     type_1='admin'
     type_2='fm'
-    fls_startwork=PersanalDetaillogin.objects.filter(line_id=user_id).values_list('name')[0][0]
+    fls_startwork=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('name')[0][0]
     updatedatawah=WahSubmitforcontractor.objects.filter(id=id).update(startwork=datetime.datetime.now(),status='onsite',fls_startwork=fls_startwork)
     work_detail_to_line=WahSubmitforcontractor.objects.filter(id=id)
     global data_2
@@ -486,7 +486,7 @@ def updatecheckoutdatabase(request,id):
     type='completed'
     type_1='admin'
     type_1='admin2'
-    fls_startwork=PersanalDetaillogin.objects.filter(line_id=user_id).values_list('name')[0][0]
+    fls_startwork=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('name')[0][0]
     updatedatawah=WahSubmitforcontractor.objects.filter(id=id).update(completedwork=datetime.datetime.now(),status='completed',fls_completedwork=fls_startwork)
     work_detail_to_line=WahSubmitforcontractor.objects.filter(id=id)
     global data_2
@@ -498,7 +498,7 @@ def updatecheckoutdatabase(request,id):
 
 def sendlinetocbreteam(request):
     admin_data=PersanalDetaillogin.objects.filter(user_type='admin')
-    token=PersanalDetaillogin.objects.filter(line_id=user_id).values_list('group_id')[0][0]
+    token=PersanalDetaillogin.objects.filter(line_id=request.session['user_id']).values_list('group_id')[0][0]
     for I in admin_data :
         data_admin=I.line_id
         send_line_to_cbre=PushMessage(data_2,data_admin)

@@ -343,13 +343,15 @@ def check_type_work(request,type_check):
     imcomming_work=Workfromgmail.objects.filter(date=today,notify_contractor__isnull=True).values('service_provider').annotate(dcount=Count('service_provider'))
     # print ('incomming is',imcomming_work)
     # print (type_check)
+    today_check = datetime.datetime.now().strftime("%Y-%m-%d")
+    tomorrow_check = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
     if request.session['company_id'] == 3 :
         if type_check == 'main_check':
             worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing').values('type_job').annotate(dcount=Count('type_job'))
         if type_check == 'today':
-            worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=today).values('type_job').annotate(dcount=Count('type_job'))
+            worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=today_check).values('type_job').annotate(dcount=Count('type_job'))
         if type_check == 'tomorrow':
-            worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=tomorrow).values('type_job').annotate(dcount=Count('type_job'))
+            worktype_detail=WahSubmitforcontractor.objects.filter(status='in planing',planned_date=tomorrow_check).values('type_job').annotate(dcount=Count('type_job'))
         if type_check == 'incomming':
             # เป็นการ Query ข้อมูลในตารางเดียวกันและให้ระบบ sum ข้อมูลที่เหมือนกันในแต่ละเงื่อนไขได้เลย
             # worktype_detail=Workfromgmail.objects.filter(completed_work__isnull=True).values('service_provider').annotate(date_open=Count('date', filter=Q(date=today))).annotate(submit=Count('status_submit')).annotate(todaypending=Count('date', filter=Q(date=today,status_submit__isnull=True))).annotate(notify=Count('notify_contractor')).annotate(pending=Count('date', filter= ~Q(status_submit='yes')))
@@ -357,7 +359,7 @@ def check_type_work(request,type_check):
             # print(worktype_detail)
         if type_check == 'submitted_check':
             data_1 = []
-            data_2 = Workfromgmail.objects.filter(completed_work__isnull=True).values('initials_name').annotate(new_work_today=Count('date', filter=Q(date=today))).annotate(today_submit=Count('status_submit',filter=Q(status_submit='yes'))).annotate(todaypending=Count('date', filter=Q(status_submit__isnull=True)))
+            data_2 = Workfromgmail.objects.filter(completed_work__isnull=True).values('initials_name').annotate(new_work_today=Count('date', filter=Q(date=today_check))).annotate(today_submit=Count('status_submit',filter=Q(status_submit='yes'))).annotate(todaypending=Count('date', filter=Q(status_submit__isnull=True)))
             data_3 = WahSubmitforcontractor.objects.filter(planned_date=tomorrow,status='in planning').values('initials_name').annotate(planned_today=Count('planned_date',))
             today_date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
             tomorrow_date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%d-%m-%Y")

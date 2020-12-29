@@ -133,7 +133,7 @@ class creatinglinemessages ():
                                 },
                                 {
                                     "type": "text",
-                                    "text": "TD-PD : Work Planned on 28-12-2020",
+                                    "text": "TD-PD : Work Planned "+planned_date,
                                     "size": "xxs",
                                     "align": "center",
                                     "margin": "xs",

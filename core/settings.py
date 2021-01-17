@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app' ,
     'import_export',
     'linebot.apps.LinebotConfig',
+    'django.contrib.humanize',
     
     
 ]
